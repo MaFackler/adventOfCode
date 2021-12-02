@@ -1,3 +1,10 @@
+all: day01 day02
 
-all:
-	gcc src/day01.c -o day1
+day01: src/day01.c
+	gcc $< -o $@
+
+day02: src/day02.c
+	gcc -g $< -o $@
+
+clean:
+	rm day*
