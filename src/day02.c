@@ -15,10 +15,11 @@ int main() {
     while (fscanf(fp, "%s %d\n", &action[0], &value) != EOF) {
         if (strcmp(action, "forward") == 0) {
             horizontal += value;
+            depth += (aim * value);
         } else if (strcmp(action, "down") == 0) {
-            depth += value;
+            aim += value;
         } else if (strcmp(action, "up") == 0) {
-            depth -= value;
+            aim -= value;
         } else {
             fprintf(stderr, "Unknown action %s\n", action);
         }
