@@ -93,7 +93,7 @@ size_t calculate_threshold(size_t amount_lines) {
 }
 
 void print_data_line(char *data, size_t line_index, size_t amount_bits) {
-    printf("%.*s\n", amount_bits, &data[line_index * amount_bits]);
+    printf("%.*s\n", (int) amount_bits, &data[line_index * amount_bits]);
 }
 
 
@@ -111,7 +111,6 @@ int main() {
     unsigned int gamma = 0;
     for (size_t i = 0; i < amount_bits; ++i) {
         size_t threshold = calculate_threshold(amount_lines);
-        char common = values[i] > threshold ? '1' : '0';
         if (values[i] > threshold) {
             gamma += BIT_VALUE(i, amount_bits);
         }
@@ -152,12 +151,12 @@ int main() {
     int scrubber_index = -1;
     for (size_t j = 0; j < amount_lines; ++j) {
         if (!oxygen[j]) {
-            printf("Oxygen %.*s\n", amount_bits, &data[j * amount_bits]);
+            printf("Oxygen %.*s\n", (int) amount_bits, &data[j * amount_bits]);
             assert(oxygen_index == -1);
             oxygen_index = j;
         }
         if (!scrubber[j]) {
-            printf("Scrubber %.*s\n", amount_bits, &data[j * amount_bits]);
+            printf("Scrubber %.*s\n", (int) amount_bits, &data[j * amount_bits]);
             assert(scrubber_index == -1);
             scrubber_index = j;
         }
