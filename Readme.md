@@ -10,3 +10,7 @@ Run
 ```bash
 ./day01
 ```
+
+## Tasks
+
+[Day03](./tasks/day03.md)
