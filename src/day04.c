@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_NUM_CARDS 256
 #define BOARD_DIM 5
@@ -17,7 +18,7 @@ typedef struct {
     size_t draw_index;
     int cards[MAX_NUM_CARDS];
     size_t num_cards;
-    size_t num_boads; 
+    size_t num_boards; 
     Board boards[NUM_BOARDS];
 } Bingo;
 
@@ -36,9 +37,9 @@ void bingo_parse_cards(Bingo *bingo, FILE *fp) {
 
 void bingo_parse_boards(Bingo *bingo, FILE *fp) {
     char c = 0;
-    bingo->num_boads = 0;
+    bingo->num_boards = 0;
     while ((c = fgetc(fp)) == '\n') {
-        Board *board = &bingo->boards[bingo->num_boads++];
+        Board *board = &bingo->boards[bingo->num_boards++];
         for(size_t i = 0; i < 5; ++i) {
             fscanf(fp, "%d %d %d %d %d",
                    &board->data[i * 5 + 0],
@@ -49,7 +50,7 @@ void bingo_parse_boards(Bingo *bingo, FILE *fp) {
         }
     }
     // NOTE: little bit hacky
-    bingo->num_boads--;
+    bingo->num_boards--;
 }
 
 void board_draw(Board *board, int card) {
@@ -96,7 +97,7 @@ int board_calculate_score(Board *board) {
 
 int bingo_draw(Bingo *bingo) {
     int card = bingo->cards[bingo->draw_index++];
-    for (size_t i = 0; i < bingo->num_boads; ++i) {
+    for (size_t i = 0; i < bingo->num_boards; ++i) {
         Board *board = &bingo->boards[i];
         board_draw(board, card);
         bool winner = board_check_winner(board);
@@ -141,10 +142,34 @@ void board_print(Board *board) {
 }
 
 void bingo_print(Bingo *bingo) {
-    for (size_t i = 0; i < bingo->num_boads; ++i) {
+    for (size_t i = 0; i < bingo->num_boards; ++i) {
         Board *board = &bingo->boards[i];
         board_print(board);
     }
+}
+
+void bingo_reset(Bingo *bingo) {
+    bingo->draw_index = 0;
+    for (size_t i = 0; i < bingo->num_boards; ++i) {
+        for (size_t j = 0; j < BOARD_DIM * BOARD_DIM; ++j) {
+            bingo->boards[i].checked[j] = false;
+        }
+    }
+}
+
+bool check_one_left(bool *winners, size_t n) {
+    bool res = false;
+    for (size_t i = 0; i < n; ++i) {
+        if (!winners[i]) {
+            if (res == true) {
+                res = false;
+                break;
+            } else {
+                res = true;
+            }
+        }
+    }
+    return res;
 }
 
 int main() {
@@ -160,10 +185,43 @@ int main() {
 
     fclose(fp);
 
+    // Part 1
+    {
+        printf("Part1\n======\n");
+        int score = bingo_draw_till_winner(&bingo);
+        //bingo_print(&bingo);
+        printf("score is %d\n\n", score);
+    }
 
-    //int card = bingo_draw_till_winner(&bingo);
-    int score = bingo_draw_till_winner(&bingo);
-    bingo_print(&bingo);
-    printf("score is %d\n", score);
-    
+    // Part 2
+    printf("Part2\n======\n");
+    bingo_reset(&bingo);
+    bool *winners = (bool *) calloc(bingo.num_boards, sizeof(bool));
+    int looser_index = -1;
+    int looser_card = -1;
+    for (size_t i = 0; i < bingo.num_cards; ++i) {
+        int card = bingo.cards[i];
+        for (size_t j = 0; j < bingo.num_boards; ++j) {
+            Board *board = &bingo.boards[j];
+            board_draw(board, card);
+            bool winner = board_check_winner(board);
+            if (winner && !winners[j]) {
+                //board_print(board);
+                bool one_left = check_one_left(winners, bingo.num_boards);
+                if (one_left) {
+                    looser_index = j;
+                    looser_card = i;
+                    // NOTE: break loop
+                    i = bingo.num_cards;
+                    break;
+                }
+                winners[j] = true;
+            }
+        }
+    }
+    Board *looser = &bingo.boards[looser_index];
+    int card = bingo.cards[looser_card];
+    int score = board_calculate_score(looser) * card;
+    printf("Looser card is %d\n", card);
+    printf("Looser score is %d\n", score);
 }
