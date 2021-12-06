@@ -4,37 +4,27 @@
 #include "common.h"
 
 
+#define DAYS_RANGE 9
 
-int* day(int *population) {
-    int *kids = NULL;
-    for (size_t i = 0; i < vec_size(population); ++i) {
-        int value = population[i];
-        if (value - 1 < 0) {
-            population[i] = 6;
-            vec_push(kids, 8);
+void day(long *days_population, size_t n) {
+    long days_to_add[DAYS_RANGE] = {0};
+    for (size_t i = 0; i < n; ++i) {
+        long amount = days_population[i];
+        if (i == 0) {
+            days_to_add[8] += amount;
+            days_to_add[6] += amount;
+            days_to_add[0] -= amount;
         } else {
-            population[i]--;
+            days_to_add[i - 1] += amount;
+            days_to_add[i] -= amount;
         }
     }
 
-    for (size_t i = 0; i < vec_size(kids); ++i) {
-        vec_push(population, kids[i]);
+    for (size_t i = 0; i < n; ++i) {
+        days_population[i] += days_to_add[i];
     }
-
-    vec_free(kids);
-    return population;
 }
 
-void print_popuplation(int *population) {
-    size_t size = vec_size(population);
-    for (size_t i = 0; i < size; ++i) {
-        printf("%d", population[i]);
-        if (i < (size - 1)) {
-            printf(",");
-        }
-    }
-    printf("\n");
-}
 
 
 int main() {
@@ -45,9 +35,9 @@ int main() {
     fscanf(fp, "Initial state: ");
 
 
-    int *population = NULL;
-    int value;
-    while (fscanf(fp, "%d", &value) != EOF) {
+    long *population = NULL;
+    long value;
+    while (fscanf(fp, "%ld", &value) != EOF) {
         vec_push(population, value);
         char c = fgetc(fp);
         if (c != ',')
@@ -55,14 +45,23 @@ int main() {
     }
     fclose(fp);
 
-    printf("Initial state: ");
-    print_popuplation(population);
-    size_t days_to_simulate = 80;
-    for (size_t i = 0; i < days_to_simulate; ++i) {
-        //printf("After %lu day: ", i + 1);
-        population = day(population);
-        //print_popuplation(population);
+    long days_population[DAYS_RANGE] = {0};
+    for (size_t i = 0; i < vec_size(population); ++i) {
+        long days_left = population[i];
+        days_population[days_left]++;
     }
-    printf("size of popuplation %lu\n", vec_size(population));
+
+    for (size_t i = 0; i < 256; ++i) {
+        day(&days_population[0], DAYS_RANGE);
+    }
+
+    long res = 0;
+    for (size_t i = 0; i < DAYS_RANGE; ++i) {
+        res += days_population[i];
+    }
+    printf("sum is %ld\n", res);
+
+    
+
     vec_free(population);
 }
