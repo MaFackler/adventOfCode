@@ -2,14 +2,27 @@
 #include "common.h"
 
 
-int calculate_fuel(int *values, size_t n, size_t fuel_value) {
+int math_ftw(int *values, size_t n, size_t fuel_value) {
     int res = 0;
     for (size_t i = 0; i < n; ++i) {
-        res += abs(values[i] - fuel_value);
+        int difference = abs(values[i] - fuel_value);
+        res += (difference * difference + difference) / 2;
     }
     return res;
 }
 
+int calculate_fuel(int *values, size_t n, size_t fuel_value) {
+    int res = 0;
+    for (size_t i = 0; i < n; ++i) {
+        int difference = abs(values[i] - fuel_value);
+		for (size_t j = 1; j <= difference; ++j) {
+            res += j; 
+		}
+    }
+    return res;
+}
+
+ 
 int main() {
 
     FILE *fp = fopen("data/input_day07.txt", "rb");
@@ -47,7 +60,9 @@ int main() {
     int lowest_fuel_value = -1;
     for (size_t i = 0; i <= max_value; ++i) {
         int res = calculate_fuel(values, vec_size(values), i);
-        printf("got fuel value of index %lu = %d\n", i, res);
+        int res2 = math_ftw(values, vec_size(values), i);
+        assert(res == res2);
+        //printf("got fuel value of index %lu = %d\n", i, res);
         if (res < lowest_fuel_value || lowest_fuel_value == -1) {
             lowest_fuel_value = res;
             lowest_fuel_index = i;
