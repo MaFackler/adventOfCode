@@ -1,5 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
+#include <stdlib.h>
+#include <assert.h>
 
 // Simple vector implementation
 #define DEFAULT_VEC_SIZE 256
