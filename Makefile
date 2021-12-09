@@ -23,7 +23,7 @@ day07: src/day07.c src/common.h
 	$(CC) $< -o $@
 
 day08: src/day08.c src/common.h
-	$(CC) $< -o $@
+	$(CC) $< -lm -o $@
 
 clean:
 	rm day*

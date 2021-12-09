@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#define ARRAY_LENGTH(arr) (sizeof(arr) / sizeof(arr[0]))
+
 // Simple vector implementation
 #define DEFAULT_VEC_SIZE 256
 
@@ -23,6 +25,9 @@ typedef struct {
 
 #define vec_free(data) \
     if (data != NULL) free(vec__get_header((vec_memory *) data))
+
+#define vec_clear(data) \
+    if (data != NULL) vec__get_header((vec_memory *) data)->size = 0;
 
 
 vec_header* vec__get_header(vec_memory *state) {
