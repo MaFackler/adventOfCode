@@ -1,5 +1,5 @@
 CC=gcc -g -Wall -Werror
-all: day01 day02 day03 day04 day05 day06 day07 day08
+all: day01 day02 day03 day04 day05 day06 day07 day08 day09
 
 day01: src/day01.c
 	$(CC) $< -o $@
@@ -24,6 +24,9 @@ day07: src/day07.c src/common.h
 
 day08: src/day08.c src/common.h
 	$(CC) $< -lm -o $@
+
+day09: src/day09.c
+	$(CC) $< -o $@
 
 clean:
 	rm day*
