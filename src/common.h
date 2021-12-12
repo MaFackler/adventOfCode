@@ -17,8 +17,10 @@ typedef struct {
 
 #define vec_push(data, value) \
     vec__check_and_grow((vec_memory **) &data); \
-    vec_header *__header = vec__get_header((vec_memory *)data); \
-    data[__header->size++] = value;
+    data[vec__get_header((vec_memory *) data)->size++] = value
+
+//vec_header *__header = vec__get_header((vec_memory *)data);
+//data[__header->size++] = value;
 
 #define vec_size(data) \
     (data == NULL ? 0 : vec__get_header((vec_memory *) data)->size)
