@@ -69,4 +69,39 @@ void vec__check_and_grow(vec_memory **data) {
     }
 }
 
+
+int vec_sort_int_asc(const void *a, const void *b) {
+    int *aa = (int*) a;
+    int *bb = (int*) b;
+    return *aa - *bb;
+}
+
+int vec_sort_unsigned_int_asc(const void *a, const void *b) {
+    unsigned int *aa = (unsigned int*) a;
+    unsigned int *bb = (unsigned int*) b;
+    if (*aa > *bb)
+        return 1;
+    else if (*aa == *bb)
+        return 0;
+    else
+        return -1;
+}
+
+int vec_sort_unsigned_long_long_int(const void *a, const void *b) {
+    unsigned long long int *aa = (unsigned long long int*) a;
+    unsigned long long int *bb = (unsigned long long int*) b;
+    if (*aa > *bb)
+        return 1;
+    else if (*aa == *bb)
+        return 0;
+    else
+        return -1;
+}
+
+int vec_sort_long_int_asc(const void *a, const void *b) {
+    long int *aa = (long int*) a;
+    long int *bb = (long int*) b;
+    return *aa - *bb;
+}
+
 #endif // COMMON_H
