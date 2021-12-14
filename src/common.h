@@ -2,6 +2,7 @@
 #define COMMON_H
 #include <stdlib.h>
 #include <assert.h>
+#include <ctype.h>
 
 #define ARRAY_LENGTH(arr) (sizeof(arr) / sizeof(arr[0]))
 
@@ -29,7 +30,9 @@ typedef struct {
     if (data != NULL) free(vec__get_header((vec_memory *) data))
 
 #define vec_clear(data) \
-    if (data != NULL) vec__get_header((vec_memory *) data)->size = 0;
+    if (data != NULL) vec__get_header((vec_memory *) data)->size = 0; \
+    data = NULL
+
 
 
 vec_header* vec__get_header(vec_memory *state) {
@@ -102,6 +105,40 @@ int vec_sort_long_int_asc(const void *a, const void *b) {
     long int *aa = (long int*) a;
     long int *bb = (long int*) b;
     return *aa - *bb;
+}
+
+int char_num_to_int(char c) {
+    assert(isdigit(c));
+    return c - '0';
+}
+
+size_t string_line_lenght(const char *buf) {
+    size_t res = 0;
+    while (*buf != 0 && *buf != '\n') {
+        res++;
+        buf++;
+    }
+    return res;
+}
+
+char *file_read(const char *filename, size_t *size) {
+    FILE *fp = fopen(filename, "rb");
+    assert(fp != NULL);
+
+    fseek(fp, 0, SEEK_END);
+    size_t file_size = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+
+    char *res = (char *) malloc(sizeof(char) * file_size);
+
+    size_t amount_read = 0;
+    while (amount_read < file_size) {
+        size_t r = fread(res + amount_read, sizeof(char), file_size, fp);
+        amount_read += r;
+    }
+    *size = file_size;
+    fclose(fp);
+    return res;
 }
 
 #endif // COMMON_H

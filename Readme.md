@@ -18,6 +18,7 @@ Run
 ./day08
 ./day09
 ./day10
+./day11
 ```
 
 ## Tasks
@@ -32,3 +33,4 @@ Run
 [Day08](./tasks/day08.md)
 [Day09](./tasks/day09.md)
 [Day10](./tasks/day10.md)
+[Day11](./tasks/day11.md)
