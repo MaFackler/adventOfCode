@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "common.h"
 
 #define DIM 5
@@ -82,6 +83,20 @@ void data_print(int *data, size_t dim) {
     }
 }
 
+
+bool data_check_all_flashed(int *data, size_t dim) {
+    bool res = true;
+    for (size_t y = 0; y < dim; ++y) {
+        for (size_t x = 0; x < dim; ++x) {
+            if (data[y * dim + x] != 0) {
+                res = false;
+                return res;
+            }
+        }
+    }
+    return res;
+}
+
 int main() {
     size_t file_size = 0;
     char *contents = file_read("data/input_day11.txt", &file_size);
@@ -96,15 +111,21 @@ int main() {
     free(contents);
 
     int count = 0;
+    int all_flashed_index = -1;
     data_print(data, dim);
     printf("\n");
-    for (size_t i = 0; i < 100; ++i) {
+    for (size_t i = 0; i >= 0; ++i) {
         printf("Step %lu\n", i + 1);
         count += data_step(data, dim);
         data_print(data, dim);
         printf("\n");
+        bool all_flashed = data_check_all_flashed(data, dim);
+        if (all_flashed) {
+            all_flashed_index = i;
+            break;
+        }
     }
 
-    printf("Result is %d\n", count);
+    printf("Result is %d\n", all_flashed_index + 1);
 
 }
