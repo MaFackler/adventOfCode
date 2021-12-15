@@ -1,6 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 #include <stdlib.h>
+#include <stdbool.h>
 #include <assert.h>
 #include <ctype.h>
 
@@ -110,6 +111,22 @@ int vec_sort_long_int_asc(const void *a, const void *b) {
 int char_num_to_int(char c) {
     assert(isdigit(c));
     return c - '0';
+}
+
+bool vec_int_contains(int *a, int value) {
+    for (size_t i = 0; i < vec_size(a); ++i) {
+        if (a[i] == value)
+            return true;
+    }
+    return false;
+}
+
+bool string_is_upper(const char *string) {
+    while (*string != 0) {
+        if (!isupper(*string++))
+            return false;
+    }
+    return true;
 }
 
 size_t string_line_lenght(const char *buf) {
