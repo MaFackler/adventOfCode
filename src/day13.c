@@ -112,7 +112,6 @@ int main() {
             x_max = index;
 
         }
-        break;
     }
 
     fclose(fp);
