@@ -1,11 +1,15 @@
 #ifndef COMMON_H
 #define COMMON_H
+#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
 #include <ctype.h>
 
 #define ARRAY_LENGTH(arr) (sizeof(arr) / sizeof(arr[0]))
+#define MIN(x, y) ((x < y) ? x : y)
+#define MAX(x, y) ((x > y) ? x : y)
 
 // Simple vector implementation
 #define DEFAULT_VEC_SIZE 256

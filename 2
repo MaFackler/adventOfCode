@@ -1,0 +1,55 @@
+#include "common.h"
+
+
+int main() {
+    FILE *fp = fopen("data/input_day13_example.txt", "rb");
+    if (!fp)
+        perror("Cannot open file");
+
+    int *xs = NULL;
+    int *ys = NULL;
+
+    int x_max = 0;
+    int y_max = 0;
+    int left, right;
+    while(fscanf(fp, "%d,%d", &left, &right) != 0) {
+        x_max = MAX(left, x_max);
+        y_max = MAX(right, y_max);
+        vec_push(xs, left);
+        vec_push(ys, right);
+    }
+    assert(x_max > 0);
+    assert(y_max > 0);
+    x_max++;
+    y_max++;
+
+    char *data = (char*) malloc(sizeof(char) * x_max * y_max);
+    memset(data, 0, x_max * y_max);
+
+    for (int i = 0; i < vec_size(xs); ++i) {
+        int x = xs[i];
+        int y = ys[i];
+        data[y * x_max + x] = '#';
+    }
+
+    for (int y = 0; y < y_max; ++y) {
+        for (int x = 0; x < x_max; ++x) {
+            char c = data[y * x_max + x];
+            if (c == 0) {
+                c = '.';
+            }
+            printf("%c", c);
+        }
+        printf("\n");
+    }
+
+
+    char direction;
+    int index;
+    while (fscanf(fp, "fold along %c=%d", &direction, &index) != 0) {
+        printf("fold along %c - %d\n", direction, index);
+    }
+
+    fclose(fp);
+
+}
