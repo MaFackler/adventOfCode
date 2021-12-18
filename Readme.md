@@ -21,6 +21,7 @@ Run
 ./day11
 ./day12
 ./day13
+python src/day15.py
 ```
 
 ## Tasks
@@ -38,3 +39,4 @@ Run
 [Day11](./tasks/day11.md)
 [Day12](./tasks/day12.md)
 [Day13](./tasks/day13.md)
+[Day14](./tasks/day14.md)
