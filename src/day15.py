@@ -9,33 +9,43 @@ offsets = [(0, 1), (1, 0), (-1, 0), (0, -1)]
 # offsets = [(0, 1), (1, 0)]
 
 
-def dijkstra():
+def dijkstra(tiles):
     q = queue.PriorityQueue()
-    q.put((0, 0, 0, [(0, 0)]))
-    distances = {(0, 0): 0}
+    q.put((0, 0, 0))
 
+    columns = len(contents[0])
+    rows = len(contents)
+
+    def get_value(x, y):
+        res = int(contents[y % rows][x % columns]) + (y // rows) + (x // columns)
+        while res > 9:
+            res -= 9
+        return res
+
+    distances = {}
+    tile = [0, 0]
     res = None
-    found = False
-    while not q.empty() and not found:
-        value, x, y, path = q.get(timeout=0)
-        if x == len(contents[0]) - 1 and y == len(contents) - 1:
-            # print(x, y, path, value)
-            res = value
-            break
-        # print("Got", x, y, path)
-        for xo, yo in offsets:
-            nx = x + xo
-            ny = y + yo
-            if 0 <= nx < len(contents[0]) and 0 <= ny < len(contents):
-                nvalue = int(contents[ny][nx])
-                shortest = distances.get((nx, ny), None)
-                if shortest is None or shortest >= value + nvalue:
-                    # print("put", value + nvalue, nx, ny)
-                    q.put((value + nvalue, nx, ny, path + [(nx, ny)]))
-                    distances[(nx, ny)] = value + nvalue
+    while not q.empty():
+        value, x, y = q.get(timeout=0)
+        if x < 0 or y < 0 or x >= columns * tiles or y >= rows * tiles:
+            continue
 
+        new_value = value + get_value(x, y)
+        shortest = distances.get((x, y), None)
 
-    assert res is not None
-    return res
+        if shortest is None or shortest > new_value:
+            distances[(x, y)] = new_value
+            for xo, yo in offsets:
+                nx = x + xo
+                ny = y + yo
+                q.put((new_value, nx, ny))
 
-print(dijkstra())
+            if x == (columns * tiles) - 1 and y == (rows * tiles) - 1:
+                break
+
+    return distances[(tiles * columns - 1, tiles * rows - 1)] - int(contents[0][0])
+
+# print("Part One")
+print(dijkstra(tiles=1))
+# print("Part Two")
+print(dijkstra(tiles=5))
