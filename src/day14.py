@@ -31,7 +31,7 @@ def chop(sequence):
 
 
 def read_data():
-    with open("data/input_day15.txt") as fp:
+    with open("data/input_day14.txt") as fp:
         contents = fp.read().split("\n")
 
     s = contents[0]
