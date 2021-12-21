@@ -80,38 +80,46 @@ def print_board(x0, x1, y0, y1, probes):
         print()
 
 
+def try_probe(probes, iv):
+    v = iv
+    while True:
+        probe, v = step(probes[-1], v)
+        probes.append(probe)
+        if probe_in(x0, x1, y0, y1, probes[-1]):
+            found = True
+            maxp = max(p[1] for p in probes)
+            # print("FOUND", iv, maxp)
+            found_probes.append(iv)
+            if maxp > max_y:
+                pass
+                # sv = iv
+                # max_y = maxp
+            return True
+
+        if v[0] > x1 or (v[1] < 0 and probes[-1][1] < y0):
+            # print("FAILED", iv, probes)
+            break
+    return False
+
 found = False
-dim = 100
+dim = x1
 
 max_y = 0
 sv = None
-height = abs(y0) - abs(y1)
-width = abs(x1) - abs(x0)
-y = 0
+y = -dim
+counter = 0
+found_probes = []
 while y <= dim:
     x = 0
     while x <= dim:
         iv = (x, y)
         # print(iv)
         probes = [(0, 0)]
-        v = iv
-        while True:
-            probe, v = step(probes[-1], v)
-            probes.append(probe)
-            if probe_in(x0, x1, y0, y1, probes[-1]):
-                found = True
-                maxp = max(p[1] for p in probes)
-                # print("FOUND", iv, maxp)
-                if maxp > max_y:
-                    sv = iv
-                    max_y = maxp
-                break
-
-            if v[0] > width or (v[1] < 0 and probes[-1][1] < y0):
-                # print("FAILED", iv, probes)
-                break
+        if try_probe(probes, iv):
+            counter += 1
+            max_y = max(p[1] for p in probes)
         x += 1
     y += 1
 # print(found, probes, probes[-1])
 print(max_y)
-
+print(counter)
