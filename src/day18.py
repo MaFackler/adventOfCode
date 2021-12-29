@@ -1,6 +1,7 @@
 import math
 import queue
 from dataclasses import dataclass
+import itertools
 
 
 @dataclass
@@ -266,14 +267,32 @@ tests = [
 
 assert magnitude(Pair(None, Pair(9), Pair(1))) == 29
 
-with open("data/input_day18.txt") as fp:
-    nodes = [string_to_node(s) for s in fp.read().split("\n")[:-1]]
+def get_nodes():
+    nodes = None
+    with open("data/input_day18.txt") as fp:
+        nodes = [string_to_node(s) for s in fp.read().split("\n")[:-1]]
+    assert nodes
+    return nodes
 
-print(nodes[0].tostring())
+nodes = get_nodes()
 if nodes:
     res = nodes[0]
     for n in nodes[1:]:
         res = add(res, n)
 
-print(res.tostring())
 print(magnitude(res))
+
+
+results = []
+for i in range(0, len(nodes)):
+    for j in range(0, len(nodes)):
+        if i == j:
+            continue
+        nodes = get_nodes()
+        res = add(nodes[i], nodes[j])
+        mag = magnitude(res)
+        results.append(mag)
+
+print(max(results))
+
+
