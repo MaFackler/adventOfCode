@@ -1,75 +1,77 @@
-with open("data/input_day20.txt", "r") as fp:
-    contents = fp.read().strip()
 
 
-def _get_buffer(in_buffer, row, col):
-    res = None
-    if row >= 0 and row < len(in_buffer):
-        r = in_buffer[row]
-        if col >= 0 and col < len(in_buffer[row]):
-            res = in_buffer[row][col]
-    return res
+def iter_rows(data: set, margin: int):
+    row_min = min((row for row, _ in data))
+    row_max = max((row for row, _ in data))
+    for row in range(row_min - margin, row_max + (2 * margin)):
+        yield row_min, row, row_max
+
+def iter_cols(data: set, margin: int):
+    col_min = min((col for _, col in data))
+    col_max = max((col for _, col in data))
+    for col in range(col_min - margin, col_max + margin):
+        yield col_min, col, col_max
 
 
-def get_index(in_buffer, row, col):
-    buf = ['-', ] * 9
-    buf[0] = _get_buffer(in_buffer, row - 1, col - 1) or "."
-    buf[1] = _get_buffer(in_buffer, row - 1, col) or "."
-    buf[2] = _get_buffer(in_buffer, row - 1, col + 1) or "."
-    buf[3] = _get_buffer(in_buffer, row, col - 1) or "."
-    buf[4] = _get_buffer(in_buffer, row, col) or "."
-    buf[5] = _get_buffer(in_buffer, row, col + 1) or "."
-    buf[6] = _get_buffer(in_buffer, row + 1, col - 1) or "."
-    buf[7] = _get_buffer(in_buffer, row + 1, col) or "."
-    buf[8] = _get_buffer(in_buffer, row + 1, col + 1) or "."
-    assert "-" not in buf
-    out = ["1" if c == "#" else "0" for c in buf]
-    return int("".join(out), 2)
 
-
-def enhance(contents: str, pixels):
-    width = len(contents.split("\n")[0])
+def enhance(data: set, pixels: str, light_pixels_stored: bool):
+    light = set()
+    dark = set()
     margin = 5
-    width += (margin * 2)
-    buffer = []
-    for i in range(0, margin):
-        buffer.append([".",] * width)
+    for row_min, row, row_max in iter_rows(data, margin):
+        for col_min, col, col_max in iter_cols(data, margin):
+            index_string = ""
+            for row_offset in (-1, 0, 1):
+                for col_offest in (-1, 0, 1):
+                    lookup = (row + row_offset, col + col_offest)
+                    index_string += "1" if (lookup in data) == light_pixels_stored else "0"
+            assert len(index_string) == 9
+            index = int(index_string, 2)
+            if pixels[index] == "#":
+                light.add((row, col))
+            else:
+                dark.add((row, col))
 
-    for line in contents.split("\n"):
-        assert line, repr(line)
-        l = ([".",] * margin) + list(line) + ([".",] * margin)
-        buffer.append(l)
-
-    for i in range(0, margin):
-        buffer.append([".",] * width)
+    return light, dark
 
 
-    out = ""
-    res = 0
-    for row, line in enumerate(buffer):
-        outline = []
+def print_image(data: set):
+    for _, row, _ in iter_rows(data, 0):
+        for _, col, _ in iter_cols(data, 0):
+            print("#" if (row, col) in data else ".", end="")
+        print()
+
+
+def main():
+    with open("data/input_day20.txt", "r") as fp:
+        contents = fp.read().strip()
+
+    pixels, buffer = contents.split("\n\n")
+    width = len(buffer.split("\n")[0])
+    assert len(pixels) == 512, len(pixels)
+
+
+    data = set()
+    for row, line in enumerate(buffer.split("\n")):
         for col, c in enumerate(line):
-            i = get_index(buffer, row, col)
-            p = pixels[i]
-            outline.append(p)
-            if p == "#" and col > margin and col < width - margin - 1:
-                if row > margin and row < len(buffer) - margin - 1:
-                    res += 1
-        out += "".join(outline) + "\n"
+            if c == "#":
+                data.add((row, col))
 
-    return (res, out[:-1])
+    light_pixels_stored = True
+    for i in range(0, 50):
+        light, dark = enhance(data, pixels, light_pixels_stored=light_pixels_stored)
+
+        inverse = False
+        if pixels[0] == ".":
+            data = light
+        else:
+            # NOTE: (i + 1) because this will be the next iteration
+            light_pixels_stored = (i + 1) % 2 == 0
+            data = light if light_pixels_stored else dark
+        if i == 1:
+            print(len(data))
+
+    print(len(data))
 
 
-# NOTE: this code is bad. It buffers the whole image
-# better way is to just store the light pixels in a set.
-# Will be done in part two
-pixels, buffer = contents.split("\n\n")
-width = len(buffer.split("\n")[0])
-assert len(pixels) == 512, len(pixels)
-
-res = 0
-for i in range(0, 2):
-    res, buffer = enhance(buffer, pixels)
-
-print(res)
-
+main()
