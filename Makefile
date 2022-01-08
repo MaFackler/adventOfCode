@@ -40,5 +40,8 @@ day12: src/day12.c src/common.h
 day13: src/day13.c src/common.h
 	$(CC) $< -o $@
 
+gui: src/gui.c src/common.h src/day20.c
+	$(CC) $< -Ilibs/raylib/src -lraylib -lm -o gui
+
 clean:
 	rm day*

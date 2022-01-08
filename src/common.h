@@ -144,6 +144,9 @@ size_t string_line_lenght(const char *buf) {
 
 char *file_read(const char *filename, size_t *size) {
     FILE *fp = fopen(filename, "rb");
+    if (fp == NULL) {
+        perror("ERROR: ");
+    }
     assert(fp != NULL);
 
     fseek(fp, 0, SEEK_END);
@@ -162,4 +165,67 @@ char *file_read(const char *filename, size_t *size) {
     return res;
 }
 
-#endif // COMMON_H
+typedef struct {
+    const char *data;
+    size_t size;
+} string_view;
+
+string_view sv_from_string(const char *string) {
+    string_view res = {0};
+    res.data = string;
+    res.size = strlen(string);
+    return res;
+}
+
+string_view sv_from_nstring(const char *string, size_t n) {
+    string_view res = {0};
+    res.data = string;
+    res.size = n;
+    return res;
+}
+
+void sv_advance_delim(string_view *sv, char delim) {
+    int advanced = 0;
+    for (size_t i = 0; i < sv->size; ++i) {
+        if (sv->data[i] == delim && i > 0) {
+            advanced = i;
+            break;
+        }
+    }
+    sv->data = sv->data + advanced;
+    sv->size -= advanced;
+}
+
+void sv_advance_offset(string_view *sv, size_t offset) {
+    assert(offset < sv->size);
+    sv->data = sv->data + offset;
+    sv->size -= offset;
+}
+
+void sv_print(string_view *sv) {
+    printf("%.*s\n", (int) sv->size, sv->data);
+}
+
+void sv_strip_left_delim(string_view *sv, char delim) {
+    size_t left = 0;
+    for (size_t i = 0; i < sv->size; ++i) {
+        if (sv->data[i] != delim) {
+            break;
+        }
+        left++;
+    }
+    sv_advance_offset(sv, left);
+}
+
+void sv_strip_right(string_view *sv, char delim) {
+    size_t right = 0;
+    for (size_t i = 0; i < sv->size; ++i) {
+        if (sv->data[sv->size - 1 - i] != delim) {
+            break;
+        }
+        right++;
+    }
+    sv->size -= right;
+}
+
+#endif
