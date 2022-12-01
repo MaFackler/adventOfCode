@@ -13,5 +13,22 @@ build/%: src/%.c
 build:
 	mkdir -p $@
 
+BIN=$(shell find build/ -type f | sort | tail -n1)
+DATA=$(shell find data/*.txt -type f | sort | tail -n1)
+DATA_TEST=$(shell find data/*e.txt -type f | sort | tail -n1)
+
+.PHONY: run
+tdd:
+	ls build/* | entr -c -r -s 'make --no-print-directory test'
+
+.PHONY: test
+test:
+	@./$(BIN) < $(DATA_TEST)
+
+.PHONY: latest
+latest:
+	@./$(BIN) < $(DATA)
+	
+
 clean:
 	rm build/*
