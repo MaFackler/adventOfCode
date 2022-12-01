@@ -1,11 +1,16 @@
-CC=gcc -Wall -Werror -lm
+CC=gcc -Wall -Werror -lm -I../libs/letsc/src
 DAYS_C=$(wildcard src/day*.c)
 DAYS_BIN=$(patsubst src/%.c,build/%,$(DAYS_C))
 
 
 all: build $(DAYS_BIN)
 
-$(DAYS_BIN): $(DAYS_C)
+# NOTE: define rule for each day so only the changed day is rebuild
+define DAY_template =
+$(1): $(patsubst build/%,src/%.c,$(1))
+endef
+
+$(foreach d,$(DAYS_BIN),$(eval $(call DAY_template, $(d))))
 
 build/%: src/%.c
 	$(CC) $< -o $@

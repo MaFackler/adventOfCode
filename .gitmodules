@@ -1,0 +1,3 @@
+[submodule "libs/letsc"]
+	path = libs/letsc
+	url = https://github.com/MaFackler/letsc
