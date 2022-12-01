@@ -1,4 +1,4 @@
-CC=gcc -g -Wall -Werror -lm
+CC=gcc -Wall -Werror -lm
 DAYS_C=$(wildcard src/day*.c)
 DAYS_BIN=$(patsubst src/%.c,build/%,$(DAYS_C))
 
@@ -19,16 +19,16 @@ DATA_TEST=$(shell find data/*e.txt -type f | sort | tail -n1)
 
 .PHONY: run
 tdd:
-	ls build/* | entr -c -r -s 'make --no-print-directory test'
+	@ls build/* | entr -c -r -s 'make --no-print-directory test'
 
 .PHONY: test
 test:
 	@./$(BIN) < $(DATA_TEST)
 
 .PHONY: latest
-latest:
-	@./$(BIN) < $(DATA)
-	
+solve:
+	@./$(BIN) < $(DATA) | xclip -sel clip
+	@xclip -o -sel clip
 
 clean:
 	rm build/*
