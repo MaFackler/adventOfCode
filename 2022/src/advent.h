@@ -9,6 +9,8 @@
 #include <assert.h>
 
 #define ArraySize(arr) (sizeof(arr) / sizeof(arr[0]))
+#define MIN(a, b) (a < b ? a : b)
+#define MAX(a, b) (a > b ? a : b)
 
 bool readline(char **line) {
     ssize_t n = 0; 
