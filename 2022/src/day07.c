@@ -96,6 +96,39 @@ void collect_size(Node *node, int *res, int threshold) {
 }
 
 
+typedef struct {
+    char *path;
+    int size;
+} NodeListItem;
+
+static NodeListItem *nodes = NULL;
+
+void tree_to_list(Node *node, int threshold) {
+    int size = node_get_total_size(node);
+    if (size >= threshold) {
+        NodeListItem *item = vec_add(nodes);
+        Node *c = node;
+        char buf[256] = {0};
+        while (c != NULL) {
+            strcat(&buf[0], c->name);
+            c = c->parent;
+        }
+        item->path = strdup(&buf[0]);
+        item->size = size;
+    }
+
+    for (int i = 0; i < vec_size(node->children); ++i) {
+        Node *child = node->children[i];
+        if (child->node_type == NODE_TYPE_DIRECTORY)
+            tree_to_list(child, threshold);
+    }
+}
+
+
+int cmp_node_list_item(const void *a, const void *b) {
+    return ((NodeListItem*) a)->size > ((NodeListItem*) b)->size;
+}
+
 int main() {
 
     Node *root = NULL;
@@ -154,12 +187,28 @@ int main() {
         }
     }
 
+    // TODO: this solution is way to complicated :P
     // node_print(root, 0);
-    int res = 0;
-    const int threshold = 100000;
+    //int res = 0;
+    //const int threshold = 100000;
+    const int total_disk_space = 70000000;
+    const int expected_disk_free_space = 30000000;
+    int actual_used_space = node_get_total_size(root);
+    int actual_free_space = total_disk_space - actual_used_space;
+    assert(expected_disk_free_space >= actual_free_space);
+    int space_to_delete = expected_disk_free_space - actual_free_space;
 
-    collect_size(root, &res, threshold);
-    printf("%d\n", res);
+    tree_to_list(root, space_to_delete);
+
+    qsort(nodes, vec_size(nodes), sizeof(NodeListItem), cmp_node_list_item);
+#if 0
+    for (int i = 0; i < vec_size(nodes); ++i) {
+        NodeListItem *item = &nodes[i];
+        printf("Item %s has size %d\n", item->path, item->size);
+    }
+#endif
+
+    printf("%d\n", nodes[0].size);
 
 }
 
