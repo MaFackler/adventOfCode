@@ -1,5 +1,7 @@
 #include "advent.h"
 
+#define vec_last(v) &v[vec_size(v) - 1]
+
 typedef struct {
     int x;
     int y;
@@ -25,13 +27,47 @@ bool vec_v2_in(v2 *vec, v2 a) {
     return false;
 }
 
+bool move(const v2 *head, const v2 *tail, v2 *out) {
+    bool res = false;
+    v2 diff = v2_sub(*head, *tail);
+    if (abs(diff.x) > 1) {
+        res = true;
+        out->y = head->y;
+        out->x = (diff.x > 0) ? (head->x - 1) : (head->x + 1);
+        assert(abs(diff.x) <= 2);
+        assert(abs(diff.y) <= 2);
+        if (abs(diff.y) > 1) {
+            out->y = (diff.y > 0) ? (head->y - 1) : (head->y + 1);
+        }
+    } else if (abs(diff.y) > 1) {
+        res = true;
+        out->x = head->x;
+        out->y = (diff.y > 0) ? (head->y - 1) : (head->y + 1);
+        assert(abs(diff.y) <= 2);
+        assert(abs(diff.x) <= 2);
+        if (abs(diff.x) > 1) {
+            out->x = (diff.x > 0) ? (head->x - 1) : (head->x + 1);
+        }
+    } else {
+        //printf("Diff is %d/%d\n", diff.x, diff.y);
+        assert((abs(diff.x) == 1 && abs(diff.y) == 0) || ((abs(diff.y) == 1) && (abs(diff.x) == 0)) || (diff.x == 0 && diff.y == 0) || (abs(diff.x) == 1 && abs(diff.y) == 1));
+    }
+    return res;
+}
+
 int main() {
     char *line = NULL;
     v2 head = {};
-    v2 *tails = NULL;
+    const int nropes = 9;
+    v2 *ropes = NULL;
     v2 *heads = NULL;
     vec_push(heads, head);
-    vec_push(tails, head);
+
+    for (int i = 0; i < nropes; ++i) {
+        vec_push(ropes, head);
+    }
+
+    v2 *set = NULL;
 
     while (readline(&line)) {
         //printf("%s", line);
@@ -57,22 +93,24 @@ int main() {
                     assert(!"INVALID");
             }
 
-            v2 *tail = &tails[vec_size(tails) - 1];
-            v2 diff = v2_sub(head, *tail);
-            //printf("diff is %d/%d\n", diff.x, diff.y);
-            if (abs(diff.x) > 1 || abs(diff.y) > 1) {
-                vec_push(tails, heads[vec_size(heads) - 1]);
+            v2 out = {};
+            for (int j = 0; j < nropes; ++j) {
+                v2 *move_to = &head;
+                if (j > 0)
+                    move_to = &ropes[j - 1];
+                if (move(move_to, &ropes[j], &out)) {
+                    ropes[j] = out;
+                }
+            }
+            if (!vec_v2_in(set, ropes[8])) {
+                vec_push(set, ropes[8]);
             }
             vec_push(heads, head);
-            //printf("%d/%d\n", head.x, head.y);
         }
     }
-    v2 *set = NULL;
-    for (int i = 0; i < vec_size(tails); ++i) {
-        if (!vec_v2_in(set, tails[i])) {
-            vec_push(set, tails[i]);
-            //printf("Got tail %d/%d\n", tails[i].x, tails[i].y);
-        }
+
+    for (int i = 0; i < vec_size(set); ++i) {
+        //printf("%d/%d\n", set[i].x, set[i].y);
     }
 
     printf("%lu\n", vec_size(set));
