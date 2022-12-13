@@ -55,6 +55,17 @@ int main() {
             ADD_TO_RES(220);
 
             #undef ADD_TO_RES
+
+            char c = '.';
+            int index = (instruction_counter + 1) % 40;
+            if (x <= index && index <= (x + 2)) {
+                c = '#';
+            }
+            printf("%c", c);
+            if (index == 0) {
+                printf("\n");
+            }
+
             if (instruction->cycles == 0) {
                 if (instruction->type == INSTRUCTION_TYPE_ADDX) {
                     //printf("add value %d", instruction->value);
@@ -74,5 +85,5 @@ int main() {
             instruction_counter++;
         }
     }
-    printf("%d\n", res);
+    //printf("%d\n", res);
 }
