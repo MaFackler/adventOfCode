@@ -7,6 +7,7 @@
 #include <vector.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <ctype.h>
 
 #define ArraySize(arr) (sizeof(arr) / sizeof(arr[0]))
 #define MIN(a, b) (a < b ? a : b)
