@@ -19,6 +19,19 @@
 #define MAX(a, b) (a > b ? a : b)
 
 #define irange(var, __i) (int var = 0; var < __i; ++var)
+#define strsplit(var, s, delim) (char *var##_rest = NULL, *var = strtok_r((s), (delim), &var##_rest); var != NULL; var = strtok_r(NULL, (delim), &var##_rest))
+#define each(var, collection) (__auto_type var = &collection[0]; var != &collection[len(collection) - 1]; var++)
+#define enumerate(var, collection) (struct { size_t i; Game *obj; } var = { 0, &collection[0] }; var.i < len(collection); ++var.i, ++var.obj)
+#define buffer(n) (char *) alloca(n)
+#define list(T) T*
+
+#define streql(a, b) (strcmp((a), (b)) == 0)
+#define INVALID assert(false);
+
+char* strlstrip(char *s, char delim) {
+    while (*s++ == delim) {}
+    return s - 1;
+}
 
 bool readline(char **line) {
     ssize_t n = 0; 
