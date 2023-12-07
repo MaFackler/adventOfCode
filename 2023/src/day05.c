@@ -24,6 +24,11 @@ uint64_t map_get_value(SeedMap *map, uint64_t value) {
     return res;
 }
 
+typedef struct Range {
+    uint64_t start;
+    uint64_t end;
+} Range;
+
 int main() {
     char *line = NULL;
     readline(&line);
@@ -51,7 +56,63 @@ int main() {
         }
     }
 
+    Range *ranges = NULL;
+    for (int i = 0; i < len(numbers); i += 2) {
+        *add(ranges) = (Range) {
+            .start=numbers[i],
+            .end=numbers[i] + numbers[i + 1]
+        };
+    }
 
+    for (int i = 0; i <= seed_index; ++i) {
+        Range *tmp_results = NULL;
+
+        while (len(ranges) > 0) {
+            Range *a = pop(ranges);
+
+            bool found = false;
+            for each(map, maps[i]) {
+                Range b = {
+                    .start=map->src,
+                    .end=map->src + map->range
+                };
+
+                uint64_t intersection_start = MAX(a->start, b.start);
+                uint64_t intersection_end = MIN(a->end, b.end);
+                if (intersection_start < intersection_end) {
+                    uint64_t d = map->dest - map->src;
+                    // overlap
+                    *add(tmp_results) = (Range) {intersection_start + d, intersection_end + d};
+                    if (a->start < intersection_start) {
+                        // left part
+                        *add(ranges) = (Range) {a->start, intersection_start};
+                    }
+
+                    if (intersection_end < a->end) {
+                        *add(ranges) = (Range) {intersection_end, a->end};
+                    }
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                *add(tmp_results) = *a;
+            }
+        }
+
+        assert(len(ranges) == 0);
+        for each(range, tmp_results) {
+            append(ranges, *range);
+        }
+        vec_free(tmp_results);
+    }
+
+    for each(range, ranges) {
+        res = MIN(range->start, res);
+    }
+
+#if 0
     for (int k = 0; k < len(numbers); k+=2) { 
 
         uint64_t start = numbers[k];
@@ -72,5 +133,6 @@ int main() {
         }
 
     }
+#endif
     print("%lu", res);
 }

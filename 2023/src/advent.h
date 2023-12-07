@@ -13,6 +13,7 @@
 #define append vec_push
 #define add vec_add
 #define len vec_size
+#define pop(arr) &arr[--vec_header(arr)->size]
 
 #define print(fmt, ...) printf(fmt "\n", ## __VA_ARGS__)
 
