@@ -24,9 +24,19 @@
 #define irange(var, __i) (int var = 0; var < __i; ++var)
 #define strsplit(var, s, delim) (char *var##_rest = NULL, *var = strtok_r((s), (delim), &var##_rest); var != NULL; var = strtok_r(NULL, (delim), &var##_rest))
 #define each(var, collection) (__auto_type var = &collection[0]; var != NULL && var != &collection[len(collection)]; var++)
-#define enumerate(var, collection) (struct { size_t i; Game *obj; } var = { 0, &collection[0] }; var.i < len(collection); ++var.i, ++var.obj)
 #define buffer(n) (char *) alloca(n)
 #define list(T) T*
+#define sort(collection, func) qsort(collection, len(collection), sizeof(*collection), (int (*)(const void*, const void*)) func)
+
+#define printl(collection, fmt) \
+    printf("("); \
+    for each(__ele, collection) { \
+        printf(fmt ", ", *__ele); \
+    } \
+    printf(")\n");
+
+
+#define print_ints(collection) printl(collection, "%d")
 
 void* findt(void *collection, size_t stride, size_t n, bool func(void *it)) {
     for (int i = 0; i < n; ++i) {
@@ -53,6 +63,17 @@ bool readline(char **line) {
     size_t allocated = 0;
 
     n = getline(line, &allocated, stdin);
+    if (n >= 0) {
+        (*line)[n - 1] = 0;
+    }
+    return n != -1;
+}
+
+bool readlinefp(char **line, FILE *fp) {
+    size_t n = 0; 
+    size_t allocated = 0;
+
+    n = getline(line, &allocated, fp);
     if (n >= 0) {
         (*line)[n - 1] = 0;
     }
