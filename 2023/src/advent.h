@@ -9,6 +9,8 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <ctype.h>
+#define STB_DS_IMPLEMENTATION
+#include "stb_ds.h"
 
 #define append vec_push
 #define add vec_add
