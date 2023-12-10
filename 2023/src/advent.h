@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <ctype.h>
+#include <stdint.h>
 #define STB_DS_IMPLEMENTATION
 #include "stb_ds.h"
 
@@ -16,6 +17,8 @@
 #define add vec_add
 #define len vec_size
 #define pop(arr) &arr[--vec_header(arr)->size]
+typedef int64_t i64;
+typedef uint64_t u64;
 
 #define print(fmt, ...) printf(fmt "\n", ## __VA_ARGS__)
 
@@ -108,6 +111,25 @@ void memory_set_int(int *mem, int value, size_t n) {
     for (int i = 0; i < n; ++i) {
         mem[i] = value;
     }
+}
+
+int64_t gcd(int64_t a, int64_t b) {
+    if (a == 0)
+        return abs(b);
+    if (b == 0)
+        return abs(a);
+
+    int64_t rest = 0;
+    do {
+        rest = a % b;
+        a = b;
+        b = rest;
+    } while (b != 0);
+    return abs(a);
+}
+
+int64_t lcm(int64_t a, int64_t b) {
+    return a * b / gcd(a, b);
 }
 
 #endif // ADVENT_H

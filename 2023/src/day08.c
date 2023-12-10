@@ -43,7 +43,29 @@ int main() {
         }
     }
 
-    int res = 0;
+
+    int *amounts = calloc(sizeof(int), len(starts));
+    for (int i = 0; i < len(starts); ++i) {
+        while (1) {
+            for (int j = 0; j < strlen(sequence); ++j) {
+                if (sequence[j] == 'L') {
+                    starts[i] = shget(nodes, starts[i].left);
+                } else {
+                    starts[i] = shget(nodes, starts[i].right);
+                }
+            }
+            amounts[i] += strlen(sequence);
+            if (starts[i].data[2] == 'Z') {
+                break;
+            }
+        }
+    }
+
+    int64_t res = amounts[0];
+    for (int i = 1; i < len(starts); ++i) {
+        res = lcm(res, amounts[i]);
+    }
+#if 0
     while (!check_finish(starts)) {
 
         for (int i = 0; i < len(starts); ++i) {
@@ -57,6 +79,7 @@ int main() {
         }
         res += strlen(sequence);
     }
+#endif
 
 #if 0
     Node current = shget(nodes, "AAA");
@@ -71,5 +94,5 @@ int main() {
     }
 #endif
 
-    print("%d", res);
+    print("%ld", res);
 }
