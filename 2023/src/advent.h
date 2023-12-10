@@ -17,6 +17,7 @@
 #define add vec_add
 #define len vec_size
 #define pop(arr) &arr[--vec_header(arr)->size]
+#define last(arr) arr[len(arr) - 1]
 typedef int64_t i64;
 typedef uint64_t u64;
 

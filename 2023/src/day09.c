@@ -20,6 +20,14 @@ bool is_finished(int *numbers) {
     return true;
 }
 
+int* putfirst(int *arr, int value) {
+    append(arr, 0);
+    memcpy(&arr[1], &arr[0], len(arr) - 1);
+    arr[0] = value;
+    // NOTE: return because of realloc
+    return arr;
+}
+
 int main() {
     char *line = NULL;
     int res = 0;
@@ -39,13 +47,17 @@ int main() {
         }
         append(tree, current);
 
-        append(tree[len(tree) - 1], 0);
+        tree[len(tree) - 1] = putfirst(tree[len(tree) - 1], 0);
+
         int new_value = 0;
         for (int i = len(tree) - 1; i > 0; --i) {
             int *bottom = tree[i];
             int *top = tree[i - 1];
-            int value = bottom[len(bottom) - 1] + top[len(top) - 1];
-            append(top, value);
+            // int value = bottom[len(bottom) - 1] + top[len(top) - 1];
+            int value = top[0] - bottom[0];
+            // append(top, value);
+            // print("%d", value);
+            top = putfirst(top, value);
             // NOTE: reallocation can happen so pointer changes...
             tree[i - 1] = top;
             // print("- %d", value);
