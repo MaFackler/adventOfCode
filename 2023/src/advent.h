@@ -12,6 +12,7 @@
 #include <stdint.h>
 #define STB_DS_IMPLEMENTATION
 #include "stb_ds.h"
+#define inrange(a, mi, ma) ((a) >= (mi) && (a) < (ma))
 
 #define append vec_push
 #define add vec_add
