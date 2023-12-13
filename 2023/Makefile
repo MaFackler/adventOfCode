@@ -1,4 +1,4 @@
-CC=gcc -g -std=c99 -Wall -Werror -lm -I../libs/letsc/src
+CC=gcc -std=gnu17 -g -Wall -Werror -lm -I../libs/letsc/src
 DAYS_C=$(wildcard src/day*.c)
 DAYS_BIN=$(patsubst src/%.c,build/%,$(DAYS_C))
 
