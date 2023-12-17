@@ -18,6 +18,18 @@ build/%: src/%.c
 build:
 	mkdir -p $@
 
+viz: build/viz
+
+reload: build/reload.so
+
+build/viz: src/viz.c build/reload.so src/adventviz.h
+	$(CC) $< -o $@ -lX11 -lXext
+
+build/reload.so: src/reload.c src/adventviz.h
+	echo "LOCK" > .shared.lock
+	$(CC) -fpic -shared $< -o $@
+	rm .shared.lock
+
 BIN=$(shell find build/ -type f | sort | tail -n1)
 DATA=$(shell find data/*.txt -type f | sort | tail -n1)
 DATA_TEST=$(shell find data/*e.txt -type f | sort | tail -n1)

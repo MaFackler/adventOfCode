@@ -19,6 +19,10 @@
 #define len vec_size
 #define pop(arr) &arr[--vec_header(arr)->size]
 #define last(arr) arr[len(arr) - 1]
+#define remove(arr, i) \
+        memcpy(&arr[i], &arr[i + 1], sizeof(Light) * (len(arr) - i - 1)); \
+        vec_header(arr)->size--;
+
 typedef int64_t i64;
 typedef uint64_t u64;
 
