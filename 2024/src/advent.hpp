@@ -9,6 +9,7 @@
 #include <ranges>  // zip
 #include <cassert>
 #include <cstdint>
+#include <set>
 
 using std::vector;
 using std::string;
@@ -19,6 +20,7 @@ using std::accumulate;
 using std::ifstream;
 using std::ranges::views::transform;
 using std::ranges::views::zip;
+using std::ranges::to;
 using std::ranges::fold_left;
 
 template <typename T>
@@ -32,6 +34,16 @@ std::ostream& operator<<(std::ostream &os, std::vector<T> &v) {
     }
     os << "]";
     return os;
+}
+
+vector<string> Split(string in, char delim) {
+    vector<string> res;
+    istringstream stream(in);
+    string current;
+    while (getline(stream, current, delim)) {
+        res.push_back(current);
+    }
+    return res;
 }
 
 struct print {
