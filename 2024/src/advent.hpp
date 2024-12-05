@@ -10,10 +10,13 @@
 #include <cassert>
 #include <cstdint>
 #include <set>
+#include <unordered_set>
 #include <map>
 
 using std::vector;
 using std::map;
+using std::set;
+using std::unordered_set;
 using std::string;
 using std::cout;
 using std::istringstream;

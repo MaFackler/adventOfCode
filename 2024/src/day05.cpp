@@ -7,7 +7,7 @@ int main() {
 
     int res1 = 0;
     int res2 = 0;
-    map<int, vector<int>> rules;
+    map<int, std::unordered_set<int>> rules;
     bool secondPart = false;
     for (string line; getline(fp, line);) {
         istringstream stream(line);
@@ -21,7 +21,7 @@ int main() {
             char c = stream.get();
             assert (c == '|');
             stream >> right;
-            rules[left].push_back(right);
+            rules[left].insert(right);
         } else {
             vector<string> splitted = Split(line, ',');
             auto values = splitted | std::ranges::views::transform([](auto ele) {
@@ -41,16 +41,10 @@ int main() {
                 int i = (values.size() / 2);
                 res1 += values[i];
             } else {
-                vector<int> ordered;
-                for (int value : values) {
-                    auto index = ordered.end();
-                    for (int ruleValue : rules[value]) {
-                        if (std::find(values.begin(), values.end(), ruleValue) != values.end()) {
-                            index = std::min(index, std::find(ordered.begin(), ordered.end(), ruleValue));
-                        }
-                    }
-                    ordered.insert(index, value);
-                }
+                auto ordered = values | std::ranges::to<vector<int>>();
+                std::sort(ordered.begin(), ordered.end(), [&rules](int a, int b) {
+                    return rules[a].contains(b);
+                });
                 res2 += ordered[(ordered.size() / 2)];
             }
         }
