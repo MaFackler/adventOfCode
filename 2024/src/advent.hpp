@@ -10,8 +10,10 @@
 #include <cassert>
 #include <cstdint>
 #include <set>
+#include <map>
 
 using std::vector;
+using std::map;
 using std::string;
 using std::cout;
 using std::istringstream;
