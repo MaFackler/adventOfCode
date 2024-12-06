@@ -1,4 +1,4 @@
-CC=g++ -std=c++23
+CC=g++ -O3 -std=c++23
 DAYS_CPP=$(wildcard src/day*.cpp)
 DAYS_BIN=$(patsubst src/%.cpp,build/%,$(DAYS_CPP))
 

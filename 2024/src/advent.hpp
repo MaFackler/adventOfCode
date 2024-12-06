@@ -41,6 +41,28 @@ std::ostream& operator<<(std::ostream &os, std::vector<T> &v) {
     return os;
 }
 
+template <typename T>
+std::ostream& operator<<(std::ostream &os, std::unordered_set<T> &v) {
+    os << "[";
+    for (auto it = v.begin(); it != v.end(); ++it) {
+        os << *it;
+        if (it < (v.end() - 1)) {
+            os << ", ";
+        }
+    }
+    os << "]";
+    return os;
+}
+
+
+#if 0
+template <typename T, typename U>
+std::enable_if_t<is_iterable<T>::value, bool> Find(const T& container, U ele) {
+    return std::find(container.begin(), container.end(), ele) != container.end();
+}
+#endif
+
+
 vector<string> Split(string in, char delim) {
     vector<string> res;
     istringstream stream(in);
