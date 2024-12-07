@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -12,6 +13,11 @@
 #include <set>
 #include <unordered_set>
 #include <map>
+
+using u32 = uint32_t;
+using i32 = int32_t;
+using u64 = uint64_t;
+using i64 = int64_t;
 
 using std::vector;
 using std::map;
