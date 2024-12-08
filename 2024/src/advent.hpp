@@ -29,10 +29,8 @@ using std::istringstream;
 using std::sort;
 using std::accumulate;
 using std::ifstream;
-using std::ranges::views::transform;
-using std::ranges::views::zip;
-using std::ranges::to;
-using std::ranges::fold_left;
+namespace views = std::ranges::views;
+namespace ranges = std::ranges;
 
 template <typename T>
 std::ostream& operator<<(std::ostream &os, std::vector<T> &v) {
@@ -67,7 +65,6 @@ std::enable_if_t<is_iterable<T>::value, bool> Find(const T& container, U ele) {
     return std::find(container.begin(), container.end(), ele) != container.end();
 }
 #endif
-
 
 vector<string> Split(string in, char delim) {
     vector<string> res;
