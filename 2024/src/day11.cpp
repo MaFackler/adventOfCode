@@ -54,10 +54,10 @@ u64 SolveStone(Stone stone, size_t n) {
     return res;
 }
 
-u64 Solve2(Stones stones) {
+u64 Solve2(Stones stones, size_t n) {
     u64 res = 0;
     for (Stone stone : stones) {
-        res += SolveStone(stone, 75);
+        res += SolveStone(stone, n);
     }
     return res;
 }
@@ -74,8 +74,9 @@ int main() {
             | ranges::to<Stones>();
         break;
     }
-    res1 = Solve1(stones);
-    res2 = Solve2(stones);
+    // res1 = Solve1(stones);
+    res1 = Solve2(stones, 25);
+    res2 = Solve2(stones, 75);
     print() << "Solution1: " << res1;
     print() << "Solution2: " << res2;
     return 0;
