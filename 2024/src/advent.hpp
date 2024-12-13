@@ -13,6 +13,7 @@
 #include <set>
 #include <unordered_set>
 #include <map>
+#include <deque>
 
 using u32 = uint32_t;
 using i32 = int32_t;
