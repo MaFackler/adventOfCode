@@ -1,19 +1,6 @@
 #include "advent.hpp"
 
 using Antenna = char;
-using Pos = std::tuple<int, int>;
-
-Pos operator-(Pos a, Pos b) {
-    auto [ax, ay] = a;
-    auto [bx, by] = b;
-    return Pos{ax - bx, ay - by};
-}
-
-Pos operator+(Pos a, Pos b) {
-    auto [ax, ay] = a;
-    auto [bx, by] = b;
-    return Pos{ax + bx, ay + by};
-}
 
 bool inRange(Pos p, int maxX, int maxY) {
     auto [x, y] = p;

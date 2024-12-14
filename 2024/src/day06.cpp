@@ -7,7 +7,6 @@ enum struct Direction : int {
     SOUTH = 2,
     WEST = 3,
 };
-using Pos = std::tuple<int, int>;
 using Walls = vector<Pos>;
 using Visited = map<Pos, unordered_set<Direction>>;
 

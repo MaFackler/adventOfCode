@@ -1,28 +1,6 @@
 #include "advent.hpp"
 
-using Grid = vector<string>;
-using Pos = std::pair<int, int>;
 
-#include <deque>
-
-vector<Pos> DIRECTIONS = {
-    {1, 0},
-    {0, 1},
-    {-1, 0},
-    {0, -1},
-};
-
-Pos operator+(Pos a, Pos b) {
-    return {a.first + b.first, a.second + b.second};
-}
-
-bool operator==(Pos a, Pos b) {
-    return a.first == b.first && a.second == b.second;
-}
-
-bool InRange(Grid &grid, Pos p) {
-    return p.first >= 0 && p.second >= 0 && p.first < grid[0].size() && p.second < grid.size();
-}
 
 struct Path {
     Pos pos;
@@ -110,17 +88,6 @@ int main() {
             });
         return iter;
     };
-
-#if 0
-    for (int y = 0; y < grid.size(); ++y) {
-        for (int x = 0; x < grid[y].size(); ++x) {
-            char c = grid[y][x];
-            if (c == '0') {
-                starts.push_back({x, y});
-            }
-        }
-    }
-#endif
 
     for (auto[y, x, c] : IterGrid(grid)) {
         if (c == '0') {

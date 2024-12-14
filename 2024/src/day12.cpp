@@ -5,17 +5,6 @@ using Grid = vector<string>;
 using Visited = set<Pos>;
 
 
-vector<Pos> DIRECTIONS = {
-    {1, 0},
-    {-1, 0},
-    {0, 1},
-    {0, -1},
-};
-
-bool InRange(Grid &grid, Pos pos) {
-    return pos.first >= 0 && pos.second >= 0 && pos.first < grid[0].size() && pos.second < grid.size();
-}
-
 int Search1(Grid &grid, Visited &visited, Pos start, char c) {
     set<Pos> region = {start};
     std::deque<Pos> q = {start};

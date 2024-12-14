@@ -86,3 +86,30 @@ struct print {
         return *this;
     }
 };
+
+// Grid stuff
+using Grid = vector<string>;
+using Pos = std::pair<int, int>;
+
+vector<Pos> DIRECTIONS = {
+    {1, 0},
+    {0, 1},
+    {-1, 0},
+    {0, -1},
+};
+
+Pos operator+(Pos a, Pos b) {
+    return {a.first + b.first, a.second + b.second};
+}
+
+Pos operator-(Pos a, Pos b) {
+    return {a.first - b.first, a.second - b.second};
+}
+
+bool operator==(Pos a, Pos b) {
+    return a.first == b.first && a.second == b.second;
+}
+
+bool InRange(Grid &grid, Pos p) {
+    return p.first >= 0 && p.second >= 0 && p.first < grid[0].size() && p.second < grid.size();
+}

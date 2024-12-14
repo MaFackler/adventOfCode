@@ -4,8 +4,8 @@ int solve1(vector<int> left, vector<int> right) {
     sort(left.begin(), left.end());
     sort(right.begin(), right.end());
 
-    auto transformed = zip(left, right) | transform([](auto &&pair) {
-            return abs(std::get<0>(pair) - std::get<1>(pair));
+    auto transformed = views::zip(left, right)
+        | views::transform([](auto &&pair) { return abs(std::get<0>(pair) - std::get<1>(pair));
     });
     int res = std::ranges::fold_left(transformed, 0, std::plus{});
 
@@ -27,10 +27,9 @@ int solve2(vector<int> left, vector<int> right) {
         res += ele * std::count(right.begin(), right.end(), ele);
     }
 #endif
-    auto transformed = left | transform([&right](auto ele) {
-        return ele * std::count(right.begin(), right.end(), ele);
-    });
-    res = fold_left(transformed, 0, std::plus{});
+    auto transformed = left
+        | views::transform([&right](auto ele) { return ele * std::count(right.begin(), right.end(), ele); });
+    res = ranges::fold_left(transformed, 0, std::plus{});
     return res;
 }
 

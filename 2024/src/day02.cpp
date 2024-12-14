@@ -51,10 +51,8 @@ int main() {
 
     for (string line; getline(fp, line);) {
         auto splitted = Split(line, ' ')
-            | transform([](auto ele) {
-                return std::stoi(ele);
-            })
-            | to<vector<int>>();
+            | views::transform([](auto ele) { return std::stoi(ele); })
+            | ranges::to<vector>();
         data.push_back(splitted);
     }
     int res1 = solve1(data);
