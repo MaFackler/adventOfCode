@@ -1,7 +1,5 @@
 #include "advent.hpp"
 
-
-
 struct Path {
     Pos pos;
     int value;
@@ -64,36 +62,25 @@ int Solve1(Grid &grid, Pos start) {
 }
 
 int main() {
-    auto fp = ifstream("data/day10e.txt");
+    auto fp = ifstream("data/day10.txt");
 
     int res1 = 0;
     int res2 = 0;
     Grid grid;
-    vector<Pos> starts;
 
     for (string line; getline(fp, line);) {
         grid.push_back(line);
     }
 
-
-    auto IterGrid = [](const Grid& grid) {
-        auto yrange = views::iota(0UL, grid.size());
-        auto xrange = views::iota(0UL, grid[0].size());
-        auto nested = views::cartesian_product(yrange, xrange);
-
-        auto iter = nested
-            | views::transform([&grid](const auto& pair) {
-                auto [y, x] = pair; // Unpack the tuple
-                return std::make_tuple(y, x, grid[y][x]);
-            });
-        return iter;
-    };
-
-    for (auto[y, x, c] : IterGrid(grid)) {
-        if (c == '0') {
-            starts.push_back({x, y});
-        }
-    }    
+    auto starts = IterGrid(grid)
+        | views::filter([](auto tup) {
+            auto [y, x, c] = tup;
+            return c == '0';
+        })
+        | views::transform([](auto tup) {
+            auto [y, x, c] = tup;
+            return Pos{x, y};
+        });
 
     for (auto start : starts) {
         res1 += Solve1(grid, start);

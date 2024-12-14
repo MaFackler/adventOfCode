@@ -113,3 +113,16 @@ bool operator==(Pos a, Pos b) {
 bool InRange(Grid &grid, Pos p) {
     return p.first >= 0 && p.second >= 0 && p.first < grid[0].size() && p.second < grid.size();
 }
+
+auto IterGrid(const Grid& grid) {
+    auto yrange = views::iota(0UL, grid.size());
+    auto xrange = views::iota(0UL, grid[0].size());
+    auto nested = views::cartesian_product(yrange, xrange);
+
+    auto iter = nested
+        | views::transform([&grid](const auto& pair) {
+            auto [y, x] = pair; // Unpack the tuple
+            return std::make_tuple(y, x, grid[y][x]);
+        });
+    return iter;
+};
