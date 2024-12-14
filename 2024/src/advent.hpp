@@ -14,12 +14,15 @@
 #include <unordered_set>
 #include <map>
 #include <deque>
+#include <print>
+
 
 using u32 = uint32_t;
 using i32 = int32_t;
 using u64 = uint64_t;
 using i64 = int64_t;
 
+using std::println;
 using std::vector;
 using std::map;
 using std::set;
@@ -76,16 +79,6 @@ vector<string> Split(string in, char delim) {
     }
     return res;
 }
-
-struct print {
-    ~print() {
-        std::cout << "\n";
-    }
-    print& operator<<(auto &ele) {
-        std::cout << ele;
-        return *this;
-    }
-};
 
 // Grid stuff
 using Grid = vector<string>;

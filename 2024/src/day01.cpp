@@ -50,6 +50,6 @@ int main() {
     }
     int res1 = solve1(left, right);
     int res2 = solve2(left, right);
-    print() << res1;
-    print() << res2;
+    println("Solution 1: {}", res1);
+    println("Solution 2: {}", res2);
 }

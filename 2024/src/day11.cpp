@@ -77,7 +77,7 @@ int main() {
     // res1 = Solve1(stones);
     res1 = Solve2(stones, 25);
     res2 = Solve2(stones, 75);
-    print() << "Solution1: " << res1;
-    print() << "Solution2: " << res2;
+    println("Solution1: {}", res1);
+    println("Solution2: {}", res2);
     return 0;
 }

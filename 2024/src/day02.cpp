@@ -57,7 +57,7 @@ int main() {
     }
     int res1 = solve1(data);
     int res2 = solve2(data);
-    print() << "Solution1: " << res1;
-    print() << "Solution2: " << res2;
+    println("Solution1: {}", res1);
+    println("Solution2: {}", res2);
     return 0;
 }

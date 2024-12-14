@@ -91,7 +91,7 @@ int main() {
 
     res1 = (int) antinodes.size();
     res2 += (int) antinodes2.size();
-    print() << "Solution1: " << res1;
-    print() << "Solution2: " << res2;
+    println("Solution1: {}", res1);
+    println("Solution2: {}", res2);
     return 0;
 }

@@ -2,13 +2,13 @@
 
 
 int main() {
-    auto fp = ifstream("data/day11.txt");
+    auto fp = ifstream("data/day10e.txt");
 
     u64 res1 = 0;
     u64 res2 = 0;
     for (string line; getline(fp, line);) {
     }
-    print() << "Solution1: " << res1;
-    print() << "Solution2: " << res2;
+    println("Solution1: {}", res1);
+    println("Solution2: {}", res2);
     return 0;
 }

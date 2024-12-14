@@ -76,7 +76,7 @@ int main() {
     }
 
     assert(combine(15, 6) == 156);
-    print() << "Solution1: " << res1;
-    print() << "Solution2: " << res2;
+    println("Solution1: {}", res1);
+    println("Solution2: {}", res2);
     return 0;
 }

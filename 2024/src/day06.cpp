@@ -135,7 +135,7 @@ int main() {
     res1 = Solve1(walls, start, dir, maxX, maxY);
     res2 = Solve2(walls, start, dir, maxX, maxY);
 
-    print() << "Solution1: " << res1;
-    print() << "Solution2: " << res2;
+    println("Solution1: {}", res1);
+    println("Solution2: {}", res2);
     return 0;
 }

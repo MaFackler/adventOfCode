@@ -94,7 +94,6 @@ int main() {
             string value = line.substr(token.start, token.end - token.start);
             switch (token.kind) {
                 case TokenKind::MUL: {
-                    //print() << value;
                     int value = token.mul.first * token.mul.second;
                     res1 += value;
                     res2 += enabled ? value : 0;
@@ -108,7 +107,7 @@ int main() {
             }
         }
     }
-    print() << "Solution1: " << res1;
-    print() << "Solution2: " << res2;
+    println("Solution1: {}", res1);
+    println("Solution2: {}", res2);
     return 0;
 }

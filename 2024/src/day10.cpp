@@ -87,7 +87,7 @@ int main() {
         res2 += Solve2(grid, start);
     }
 
-    print() << "Solution1: " << res1;
-    print() << "Solution2: " << res2;
+    println("Solution1: {}", res1);
+    println("Solution2: {}", res2);
     return 0;
 }
