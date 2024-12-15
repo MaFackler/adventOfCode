@@ -31,3 +31,7 @@ foreach(source ${DAY_SOURCES})
     target_include_directories(${name} PRIVATE ${raylib_SOURCE_DIR}/src)
     target_link_libraries(${name} PRIVATE raylib)
 endforeach(source ${DAY_SOURCES})
+
+add_executable(demo src/demo.cpp)
+set_property(TARGET demo PROPERTY CXX_STANDARD 23)
+set_property(TARGET demo PROPERTY COMPILE_WARNING_AS_ERROR ON)

@@ -29,7 +29,7 @@ auto SearchFreeSpace(vector<i64> &memory, int n) {
 }
 
 void Solve2(vector<i64> &memory) {
-    for (auto valueIt = memory.rbegin(); valueIt != memory.rend(); valueIt) {
+    for (auto valueIt = memory.rbegin(); valueIt != memory.rend();) {
         int valueN = GetAmountOfSameValue(valueIt, memory.rend());
         if (*valueIt == -1) {
             valueIt++;

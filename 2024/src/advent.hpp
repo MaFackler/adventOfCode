@@ -90,6 +90,10 @@ inline Pos operator-(Pos a, Pos b) {
     return {a.first - b.first, a.second - b.second};
 }
 
+inline Pos operator*(Pos a, int value) {
+    return {a.first * value, a.second * value};
+}
+
 inline bool operator==(Pos a, Pos b) {
     return a.first == b.first && a.second == b.second;
 }
@@ -110,3 +114,12 @@ inline auto IterGrid(const Grid& grid) {
         });
     return iter;
 };
+
+namespace std {
+    template<>
+    struct hash<Pos> {
+        std::size_t operator()(const Pos &p) const {
+            return std::hash<int>()(p.first) ^ (std::hash<int>()(p.second) << 1);
+        }
+    };
+}

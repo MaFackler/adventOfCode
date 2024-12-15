@@ -104,6 +104,8 @@ int main() {
                 case TokenKind::DONT: {
                     enabled = false;
                 } break;
+                case TokenKind::END: {
+                } break;
             }
         }
     }
