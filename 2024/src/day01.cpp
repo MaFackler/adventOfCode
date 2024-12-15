@@ -1,13 +1,13 @@
 #include "advent.hpp"
 
-int solve1(vector<int> left, vector<int> right) {
+i64 solve1(vector<int> left, vector<int> right) {
     sort(left.begin(), left.end());
     sort(right.begin(), right.end());
 
     auto transformed = views::zip(left, right)
         | views::transform([](auto &&pair) { return abs(std::get<0>(pair) - std::get<1>(pair));
     });
-    int res = std::ranges::fold_left(transformed, 0, std::plus{});
+    i64 res = std::ranges::fold_left(transformed, 0, std::plus{});
 
 #if 0
     int res = 0;
@@ -19,9 +19,9 @@ int solve1(vector<int> left, vector<int> right) {
     return res;
 }
 
-int solve2(vector<int> left, vector<int> right) {
+i64 solve2(vector<int> left, vector<int> right) {
 
-    int res = 0;
+    i64 res = 0;
 #if 0
     for (const auto &ele : left) {
         res += ele * std::count(right.begin(), right.end(), ele);
@@ -35,7 +35,7 @@ int solve2(vector<int> left, vector<int> right) {
 
 
 int main() {
-    auto fp = ifstream("data/day01.txt");
+    auto fp = ifstream("../data/day01.txt");
     vector<int> left;
     vector<int> right;
 
@@ -48,8 +48,8 @@ int main() {
         left.push_back(lnumber);
         right.push_back(rnumber);
     }
-    int res1 = solve1(left, right);
-    int res2 = solve2(left, right);
+    i64 res1 = solve1(left, right);
+    i64 res2 = solve2(left, right);
     println("Solution 1: {}", res1);
     println("Solution 2: {}", res2);
 }

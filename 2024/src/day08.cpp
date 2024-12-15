@@ -21,7 +21,7 @@ void SpawnAntinodes(vector<Pos> &res, Pos start, Pos diff, int maxX, int maxY, b
 }
 
 int main() {
-    auto fp = ifstream("data/day08.txt");
+    auto fp = ifstream("../data/day08.txt");
 
     int res1 = 0;
     int res2 = 0;
@@ -38,7 +38,7 @@ int main() {
                 continue;
             }
             Pos p = {x, maxY};
-            antennas[c].push_back((Pos) {x, maxY});
+            antennas[c].push_back(Pos{x, maxY});
             antinodes2.push_back(p);
         }
         maxX = std::max(maxX, (int) line.size());
@@ -59,7 +59,7 @@ int main() {
                 SpawnAntinodes(antinodes, p2, diff, maxX, maxY, true);
                 SpawnAntinodes(antinodes, p1, diffnegative, maxX, maxY, true);
 
-                int sizeBefore = antinodes2.size();
+                int sizeBefore = (int) antinodes2.size();
                 SpawnAntinodes(antinodes2, p2, diff, maxX, maxY, false);
                 SpawnAntinodes(antinodes2, p1, diffnegative, maxX, maxY, false);
             }

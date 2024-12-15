@@ -52,7 +52,7 @@ int SearchXMas(vector<string> &grid, int x, int y) {
 
 
 int main() {
-    auto fp = ifstream("data/day04.txt");
+    auto fp = ifstream("../data/day04.txt");
 
     int res1 = 0;
     int res2 = 0;

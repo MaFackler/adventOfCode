@@ -62,7 +62,7 @@ int Solve1(Grid &grid, Pos start) {
 }
 
 int main() {
-    auto fp = ifstream("data/day10.txt");
+    auto fp = ifstream("../data/day10.txt");
 
     int res1 = 0;
     int res2 = 0;

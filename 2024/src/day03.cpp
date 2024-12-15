@@ -82,7 +82,7 @@ read:
 }
 
 int main() {
-    auto fp = ifstream("data/day03.txt");
+    auto fp = ifstream("../data/day03.txt");
 
     int res1 = 0;
     int res2 = 0;

@@ -45,13 +45,13 @@ int solve2(vector<vector<int>> &data) {
 }
 
 int main() {
-    auto fp = ifstream("data/day02.txt");
+    auto fp = ifstream("../data/day02.txt");
     
     vector<vector<int>> data;
 
     for (string line; getline(fp, line);) {
-        auto splitted = Split(line, ' ')
-            | views::transform([](auto ele) { return std::stoi(ele); })
+        auto splitted = views::split(line, ' ')
+            | views::transform([](auto &&r) { return std::stoi(string(r.begin(), r.end())); })
             | ranges::to<vector>();
         data.push_back(splitted);
     }

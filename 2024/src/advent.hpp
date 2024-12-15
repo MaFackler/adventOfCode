@@ -22,6 +22,7 @@ using i32 = int32_t;
 using u64 = uint64_t;
 using i64 = int64_t;
 
+using std::deque;
 using std::println;
 using std::vector;
 using std::map;
@@ -70,44 +71,34 @@ std::enable_if_t<is_iterable<T>::value, bool> Find(const T& container, U ele) {
 }
 #endif
 
-vector<string> Split(string in, char delim) {
-    vector<string> res;
-    istringstream stream(in);
-    string current;
-    while (getline(stream, current, delim)) {
-        res.push_back(current);
-    }
-    return res;
-}
-
 // Grid stuff
 using Grid = vector<string>;
 using Pos = std::pair<int, int>;
 
-vector<Pos> DIRECTIONS = {
+static vector<Pos> DIRECTIONS = {
     {1, 0},
     {0, 1},
     {-1, 0},
     {0, -1},
 };
 
-Pos operator+(Pos a, Pos b) {
+inline Pos operator+(Pos a, Pos b) {
     return {a.first + b.first, a.second + b.second};
 }
 
-Pos operator-(Pos a, Pos b) {
+inline Pos operator-(Pos a, Pos b) {
     return {a.first - b.first, a.second - b.second};
 }
 
-bool operator==(Pos a, Pos b) {
+inline bool operator==(Pos a, Pos b) {
     return a.first == b.first && a.second == b.second;
 }
 
-bool InRange(Grid &grid, Pos p) {
+inline bool InRange(Grid &grid, Pos p) {
     return p.first >= 0 && p.second >= 0 && p.first < grid[0].size() && p.second < grid.size();
 }
 
-auto IterGrid(const Grid& grid) {
+inline auto IterGrid(const Grid& grid) {
     auto yrange = views::iota(0UL, grid.size());
     auto xrange = views::iota(0UL, grid[0].size());
     auto nested = views::cartesian_product(yrange, xrange);

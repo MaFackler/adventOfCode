@@ -14,7 +14,7 @@ u64 add(u64 a, u64 b) {
 
 u64 combine(u64 a, u64 b) {
     assert(b > 0);
-    a *= pow(10, ((int) std::log10(b) + 1));
+    a *= (u64) pow(10, ((int) std::log10(b) + 1));
     u64 res = a + b;
     return res;
 }
@@ -45,7 +45,7 @@ bool IsValid(vector<u64> numbers, u64 expectedResult, Functions &functions) {
 
 
 int main() {
-    auto fp = ifstream("data/day07.txt");
+    auto fp = ifstream("../data/day07.txt");
 
     u64 res1 = 0;
     u64 res2 = 0;
@@ -62,9 +62,9 @@ int main() {
         assert(c == ' ');
         string rest;
         std::getline(stream, rest);
-        auto numbers = Split(rest, ' ')
-            | std::ranges::views::transform([](auto ele) {
-                return std::stoi(ele);
+        auto numbers = views::split(rest, ' ')
+            | views::transform([](auto &&r) {
+                return std::stoi(string(r.begin(), r.end()));
             })
             | std::ranges::to<vector<u64>>();
         if (IsValid(numbers, expectedResult, p1)) {

@@ -6,13 +6,13 @@ int GetAmountOfSameValue(auto begin, auto end) {
     while (it != end && *begin == *it) {
         it++;
     }
-    return it - begin;
+    return (int) (it - begin);
 }
 
 void PrintMemory(const vector<i64> &memory) {
-    for (int value : memory) {
+    for (i64 value : memory) {
         assert(value <= 9);
-        char c = value == -1 ? '.' : '0' + value;
+        char c = value == -1 ? '.' : '0' + (int) value;
         cout << c;
     }
     cout << "\n";
@@ -61,8 +61,8 @@ void Solve1(vector<i64> &memory) {
 
 i64 Checksum(const vector<i64> &memory) {
     i64 res = 0;
-    for (int i = 0; i < memory.size(); ++i) {
-        int value = memory[i];
+    for (size_t i = 0; i < memory.size(); ++i) {
+        i64 value = memory[i];
         if (value == -1) {
             value = 0;
         }
@@ -73,14 +73,14 @@ i64 Checksum(const vector<i64> &memory) {
 
 
 int main() {
-    auto fp = ifstream("data/day09.txt");
+    auto fp = ifstream("../data/day09.txt");
 
     i64 res1 = 0;
     i64 res2 = 0;
     vector<i64> memory;
     i64 id = 0;
     for (string line; getline(fp, line);) {
-        for (i64 i = 0; i < line.size(); ++i) {
+        for (size_t i = 0; i < line.size(); ++i) {
             i64 value = line[i] - '0';
             if ((i % 2) == 0) {
                 memory.insert(memory.end(), value, id);

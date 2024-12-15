@@ -7,7 +7,7 @@ enum struct Direction : int {
     SOUTH = 2,
     WEST = 3,
 };
-using Walls = vector<Pos>;
+using Walls = set<Pos>;
 using Visited = map<Pos, unordered_set<Direction>>;
 
 Direction rotate(Direction dir) {
@@ -35,7 +35,7 @@ bool Walk(Walls &walls, Pos &pos, Direction &dir, int maxX, int maxY) {
     }
 
     Pos newPos = {x, y};
-    if (std::find(walls.begin(), walls.end(), newPos) != walls.end()) {
+    if (walls.contains(newPos)) {
         dir = rotate(dir);
         Walk(walls, pos, dir, maxX, maxY);
     } else {
@@ -44,7 +44,7 @@ bool Walk(Walls &walls, Pos &pos, Direction &dir, int maxX, int maxY) {
     return x >= 0 && y >= 0 && x <= maxX && y <= maxY;
 };
 
-bool CheckRight(Visited visited, vector<Pos> &walls, Pos pos, Direction dir, int maxX, int maxY) {
+bool CheckRight(Visited visited, Walls &walls, Pos pos, Direction dir, int maxX, int maxY) {
     dir = rotate(dir);
     Direction startdir = dir;
     Pos startpos = pos;
@@ -77,9 +77,9 @@ bool SearchLoop(Walls walls, Pos start, Direction dir, int maxX, int maxY, int x
     Visited currentVisited = {};
     Pos pos = start;
     currentVisited[pos].insert(dir);
-    vector<Pos> currentWalls = walls;
-    if (std::find(currentWalls.begin(), currentWalls.end(), (Pos){x, y}) == currentWalls.end()) {
-        currentWalls.push_back({x, y});
+    Walls currentWalls = walls;
+    if (!currentWalls.contains(Pos{x, y})) {
+        currentWalls.insert({x, y});
         while (Walk(currentWalls, pos, dir, maxX, maxY)) {
             if (currentVisited.contains(pos) && currentVisited[pos].contains(dir)) {
                 return true;
@@ -105,7 +105,7 @@ int Solve2(Walls walls, Pos start, Direction dir, int maxX, int maxY) {
 
 
 int main() {
-    auto fp = ifstream("data/day06.txt");
+    auto fp = ifstream("../data/day06.txt");
 
     int res1 = 0;
     int res2 = 0;
@@ -124,7 +124,7 @@ int main() {
             if (c == '^') {
                 start = pos;
             } else if (c == '#') {
-                walls.push_back(pos);
+                walls.insert(pos);
             }
             maxX = std::max(x, maxX);
         }

@@ -35,7 +35,7 @@ int Search1(Grid &grid, Visited &visited, Pos start, char c) {
 
         }
     }
-    return region.size() * fences.size();
+    return (int) region.size() * (int) fences.size();
 }
 
 
@@ -100,7 +100,7 @@ int Search2(Grid &grid, Visited &visited, Pos start, char c) {
     //cout << c << ": " << region.size() << " * " << fences.size() << "\n";
     // cout << c << ": " << region.size() << " * " << nsides << "\n";
 
-    return region.size() * nsides;
+    return (int) region.size() * nsides;
 
 }
 
@@ -110,7 +110,7 @@ int Solve1(Grid &grid) {
     for (int y = 0; y < grid.size(); ++y) {
         for (int x = 0; x < grid[0].size(); ++x) {
             char c = grid[y][x];
-            if (!visited.contains((Pos){x, y})) {
+            if (!visited.contains(Pos{x, y})) {
                 res += Search1(grid, visited, {x, y}, c);
             }
         }
@@ -124,7 +124,7 @@ int Solve2(Grid &grid) {
     for (int y = 0; y < grid.size(); ++y) {
         for (int x = 0; x < grid[0].size(); ++x) {
             char c = grid[y][x];
-            if (!ranges::contains(visited, (Pos){x, y})) {
+            if (!ranges::contains(visited, Pos{x, y})) {
                 res += Search2(grid, visited, {x, y}, c);
             }
         }
@@ -134,7 +134,7 @@ int Solve2(Grid &grid) {
 
 
 int main() {
-    auto fp = ifstream("data/day12.txt");
+    auto fp = ifstream("../data/day12.txt");
 
     Grid grid;
     u64 res1 = 0;

@@ -3,7 +3,7 @@
 
 
 int main() {
-    auto fp = ifstream("data/day05.txt");
+    auto fp = ifstream("../data/day05.txt");
 
     int res1 = 0;
     int res2 = 0;
@@ -23,7 +23,9 @@ int main() {
             stream >> right;
             rules[left].insert(right);
         } else {
-            vector<string> splitted = Split(line, ',');
+            auto splitted = views::split(line, ',')
+		| views::transform([](auto &&r) { return string(r.begin(), r.end()); })
+		| ranges::to<vector>();
             auto values = splitted | std::ranges::views::transform([](auto ele) {
                 return std::stoi(ele);
             });
@@ -38,7 +40,7 @@ int main() {
 
             if (valid) {
                 assert(values.size() % 2 == 1);
-                int i = (values.size() / 2);
+                int i = (int) (values.size() / 2);
                 res1 += values[i];
             } else {
                 auto ordered = values | std::ranges::to<vector<int>>();

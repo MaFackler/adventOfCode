@@ -1,5 +1,4 @@
 #include "advent.hpp"
-#include <queue>
 
 
 std::pair<int, int> Solve1(int ax, int ay, int bx, int by, int xres, int yres) {
@@ -35,20 +34,20 @@ std::pair<i64, i64> Solve2(double ax, double ay, double bx, double by, double xr
 
 
 int main() {
-    auto fp = ifstream("data/day13.txt");
+    auto fp = ifstream("../data/day13.txt");
+
 
     i64 res1 = 0;
     i64 res2 = 0;
     for (string line; getline(fp, line);) {
-        char c;
         int ax, ay;
-        sscanf(line.c_str(), "Button %c: X+%d, Y+%d", &c, &ax, &ay);
+        sscanf_s(line.c_str(), "Button A: X+%d, Y+%d", &ax, &ay);
         getline(fp, line);
         int bx, by;
-        sscanf(line.c_str(), "Button %c: X+%d, Y+%d", &c, &bx, &by);
+        sscanf_s(line.c_str(), "Button B: X+%d, Y+%d", &bx, &by);
         getline(fp, line);
         int xres, yres;
-        sscanf(line.c_str(), "Prize: X=%d, Y=%d", &xres, &yres);
+        sscanf_s(line.c_str(), "Prize: X=%d, Y=%d", &xres, &yres);
 
         getline(fp, line);
         assert(line == "");

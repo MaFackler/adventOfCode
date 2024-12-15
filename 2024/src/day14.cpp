@@ -1,6 +1,5 @@
 #include "advent.hpp"
 
-
 struct Robot {
     Pos pos;
     Pos vel;
@@ -115,7 +114,7 @@ int main() {
 
     u64 res1 = 0;
     u64 res2 = 0;
-    auto robots = ParseRobots("data/day14.txt");
+    auto robots = ParseRobots("../data/day14.txt");
     auto robots2 = robots;
     auto robots3 = robots;
 
@@ -144,10 +143,12 @@ int main() {
 
     }
     res2 = maxi + 1;
+#if 0
     for (auto i : views::iota(0ul, res2)) {
         Simulate(robots3, dim);
     }
     PrintRobots(robots3, dim);
+#endif
     println("Solution1: {}", res1);
     println("Solution2: {}", maxi + 1);
     return 0;

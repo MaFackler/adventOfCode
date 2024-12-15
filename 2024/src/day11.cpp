@@ -6,7 +6,7 @@ using Stone = u64;
 void Blink(Stones &stones) {
     for (int i = 0; i < stones.size(); ++i) {
         Stone &stone = stones[i];
-        int n = log10(stone) + 1;
+        int n = (int) log10(stone) + 1;
         if (stone == 0) {
             stone = 1;
         } else if ((n % 2) == 0) {
@@ -26,7 +26,7 @@ int Solve1(Stones stones) {
     for (auto _ : views::iota(0, 25)) {
         Blink(stones);
     }
-    return stones.size();
+    return (int) stones.size();
 }
 
 u64 SolveStone(Stone stone, size_t n) {
@@ -35,7 +35,7 @@ u64 SolveStone(Stone stone, size_t n) {
     if (cache.contains(key)) {
         return cache[key];
     }
-    int digits = log10(stone) + 1;
+    int digits = (int) log10(stone) + 1;
     u64 res = 0;
     if (n == 0) {
         res = 1;
@@ -63,14 +63,14 @@ u64 Solve2(Stones stones, size_t n) {
 }
 
 int main() {
-    auto fp = ifstream("data/day11.txt");
+    auto fp = ifstream("../data/day11.txt");
 
     u64 res1 = 0;
     u64 res2 = 0;
     Stones stones;
     for (string line; getline(fp, line);) {
-        stones = Split(line, ' ')
-            | views::transform([](auto ele) { return std::stoi(ele); })
+        stones = views::split(line, ' ')
+            | views::transform([](auto &&r) { return std::stoi(string(r.begin(), r.end())); })
             | ranges::to<Stones>();
         break;
     }
