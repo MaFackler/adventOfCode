@@ -22,6 +22,9 @@ using i32 = int32_t;
 using u64 = uint64_t;
 using i64 = int64_t;
 
+#ifdef __WIN32__
+#define sscanf scanf_s
+#endif
 using std::deque;
 using std::println;
 using std::vector;
