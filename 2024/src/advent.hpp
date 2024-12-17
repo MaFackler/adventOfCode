@@ -15,6 +15,10 @@
 #include <map>
 #include <deque>
 #include <print>
+#include <stack>
+#include <queue>
+
+
 
 
 using u32 = uint32_t;
@@ -25,6 +29,7 @@ using i64 = int64_t;
 #ifdef __WIN32__
 #define sscanf scanf_s
 #endif
+using std::stack;
 using std::deque;
 using std::println;
 using std::vector;
@@ -37,7 +42,13 @@ using std::istringstream;
 using std::sort;
 using std::accumulate;
 using std::ifstream;
+using std::priority_queue;
+using std::pair;
+using std::make_pair;
+using std::tuple;
+using std::make_tuple;
 namespace views = std::ranges::views;
+using views::iota;
 namespace ranges = std::ranges;
 
 template <typename T>
@@ -84,6 +95,14 @@ static vector<Pos> DIRECTIONS = {
     {-1, 0},
     {0, -1},
 };
+
+inline Pos RotateClockwise(Pos p) {
+    return Pos{p.second, -p.first};
+}
+
+inline Pos RotateCounterClockwise(Pos p) {
+    return Pos{-p.second, p.first};
+}
 
 inline Pos operator+(Pos a, Pos b) {
     return {a.first + b.first, a.second + b.second};
