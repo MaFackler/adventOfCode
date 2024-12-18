@@ -17,6 +17,7 @@
 #include <print>
 #include <stack>
 #include <queue>
+#include <limits>
 
 
 using u32 = uint32_t;
@@ -116,6 +117,11 @@ inline Pos operator*(Pos a, int value) {
 
 inline bool operator==(Pos a, Pos b) {
     return a.first == b.first && a.second == b.second;
+}
+
+inline float DistanceSquared(Pos a, Pos b) {
+    Pos diff = b - a;
+    return diff.first * diff.first + diff.second * diff.second;
 }
 
 inline bool InRange(Grid &grid, Pos p) {
