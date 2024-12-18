@@ -19,15 +19,13 @@
 #include <queue>
 
 
-
-
 using u32 = uint32_t;
 using i32 = int32_t;
 using u64 = uint64_t;
 using i64 = int64_t;
 
-#ifdef __WIN32__
-#define sscanf scanf_s
+#ifdef _MSC_VER
+#define sscanf sscanf_s
 #endif
 using std::stack;
 using std::deque;
@@ -144,4 +142,17 @@ namespace std {
             return std::hash<int>()(p.first) ^ (std::hash<int>()(p.second) << 1);
         }
     };
+}
+
+// Algorihtms
+
+auto iter_pairs(auto &cont) {
+    auto iter = views::iota(0ul, cont.size() / 2)
+        | views::transform([&cont](auto i) {
+            auto first = cont[i * 2];
+            auto second = cont[i * 2 + 1];
+            return std::make_pair(first, second); 
+        });
+
+    return iter;
 }
