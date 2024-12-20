@@ -9,6 +9,7 @@
 #include <numeric>   // std::accumulate
 #include <ranges>  // zip
 #include <cassert>
+#include <cstdlib>
 #include <cstdint>
 #include <set>
 #include <unordered_set>

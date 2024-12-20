@@ -111,7 +111,7 @@ int main() {
 
         for (auto col : iota(0ul, line.size())) {
             auto c = line[col];
-            Pos p{R, col};
+            Pos p{(int)R, (int)col};
             switch (c) {
                 case '#':
                     walls.insert(p);
