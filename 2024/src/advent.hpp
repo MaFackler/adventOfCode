@@ -19,6 +19,7 @@
 #include <stack>
 #include <queue>
 #include <limits>
+#include <variant>
 
 
 using u32 = uint32_t;
@@ -50,6 +51,7 @@ using std::make_tuple;
 namespace views = std::ranges::views;
 using views::iota;
 namespace ranges = std::ranges;
+using std::variant;
 
 template <typename T>
 std::ostream& operator<<(std::ostream &os, std::vector<T> &v) {
