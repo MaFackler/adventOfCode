@@ -1,0 +1,3 @@
+Sildrith,Lazirlorath,Tarleldrin,Selardith,Sartaril,Brivoryx,Hazroth,Palddrith,Fyndeldrith,Thalaes,Ravjoris,Myrjorath,Kazrax,Gorathaes,Rahmir,Ulmarsyron,Eldenzeth,Ignulth,Malithgarath,Zyrixnylor,Raelxel,Tharnaelor,Eltzion,Xilxel,Variniral,Ilmargyth,Dalendris,Vanhynd,Nyrixpyxis,Quorxel
+
+L6,R22,L7,R42,L34,R23,L30,R9,L39,R11,L12,R24,L34,R36,L46,R45,L8,R42,L15,R9,L5,R27,L5,R6,L5,R15,L5,R38,L5,R30,L5,R36,L5,R44,L5,R11,L5,R40,L5,R36,L15,R43,L37,R16,L9,R11,L12,R23,L15,R32,L7,R49,L37,R5,L19,R7,L33,R41,L11

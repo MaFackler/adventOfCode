@@ -1,0 +1,3 @@
+Brynadarin,Xillith,Quennyn,Olarparth,Quarnxel,Nyroth,Eadfroth,Jarvel,Urzyth,Kyulrix,Azsyron,Raelfelix,Ulmarulth,Thardaros,Felmargonn,Gorathpyros,Tharilaelor,Orymyr,Ralvoran,Rythanris
+
+L6,R18,L15,R14,L7,R18,L19,R13,L14,R18,L5,R17,L5,R16,L5,R12,L5,R8,L5,R17,L11,R8,L17,R15,L19,R9,L5,R14,L7
