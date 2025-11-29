@@ -78,20 +78,16 @@ optional<ComplexNumber> verify(const ComplexNumber number) {
     return {res};
 }
 
-void quest2() {
-    ComplexNumber start = read_from_file("./data/2025_q02_p2.txt");
-    ComplexNumber end_offset = {1000, 1000};
-    ComplexNumber end = start + end_offset;
-
-    ComplexNumber dim{100, 100};
-    ComplexNumber offset = end_offset / dim;
-
+uint64_t calculate_with_dim(ComplexNumber start, ComplexNumber end_offset, ComplexNumber dim) {
+    assert(dim.x > 0);
+    assert(dim.y > 0);
+    ComplexNumber iteration_offset = end_offset / ComplexNumber{dim.x - 1 , dim.y - 1};
     uint64_t res = 0;
-    for (int y = 0; y <= dim.y; ++y) {
-        for (int x = 0; x <= dim.x; ++x) {
+    for (int y = 0; y < dim.y; ++y) {
+        for (int x = 0; x < dim.x; ++x) {
             ComplexNumber p = {
-                .x=start.x + offset.x * x,
-                .y=start.y + offset.y * y,
+                .x=start.x + iteration_offset.x * x,
+                .y=start.y + iteration_offset.y * y,
             };
 
             auto value = verify(p);
@@ -104,12 +100,25 @@ void quest2() {
         }
         // cout << "\n";
     }
-    cout << res << "\n";
-
+    return res;
 }
+
+void quest2() {
+    const ComplexNumber start = read_from_file("./data/2025_q02_p2.txt");
+    const ComplexNumber end_offset = {1000, 1000};
+    int64_t res = calculate_with_dim(start, end_offset, {101, 101});
+    cout << res << "\n";
+}
+
+void quest3() {
+    const ComplexNumber start = read_from_file("./data/2025_q02_p3.txt");
+    int64_t res = calculate_with_dim(start, {1000, 1000}, {1001, 1001});
+    cout << res << "\n";
+};
 
 int main() {
     quest1();
     quest2();
+    quest3();
 
 }
