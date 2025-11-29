@@ -37,7 +37,7 @@ auto get_names_and_directions(string_view filepath) {
 }
 
 void quest1() {
-    auto [names, directions] = get_names_and_directions("./data/everybody_codes_e2025_q01_p1.txt");
+    auto [names, directions] = get_names_and_directions("./data/2025_q01_p1.txt");
     int max_value = names.size() - 1;
     auto part1lambda = [&max_value](int res, int ele) {
         res += ele;
@@ -52,7 +52,7 @@ void quest1() {
 }
 
 void quest2() {
-    auto [names, directions] = get_names_and_directions("./data/everybody_codes_e2025_q01_p2.txt");
+    auto [names, directions] = get_names_and_directions("./data/2025_q01_p2.txt");
 
     auto offset2 = accumulate(directions.begin(),
                               directions.end(),
@@ -62,7 +62,7 @@ void quest2() {
 }
 
 void quest3() {
-    auto [names, directions] = get_names_and_directions("./data/everybody_codes_e2025_q01_p3.txt");
+    auto [names, directions] = get_names_and_directions("./data/2025_q01_p3.txt");
     for (auto&& direction : directions) {
         int offset = direction % (int) names.size();
         if (offset < 0) {
