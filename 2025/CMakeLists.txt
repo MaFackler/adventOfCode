@@ -16,7 +16,7 @@ foreach(source ${DAY_SOURCES})
     get_filename_component(name ${source} NAME_WE)
     add_executable(${name} ${source})
     target_link_libraries(${name} PRIVATE Catch2::Catch2WithMain)
-    set_property(TARGET ${name} PROPERTY CXX_STANDARD 23)
+    set_property(TARGET ${name} PROPERTY CXX_STANDARD 26)
     set_property(TARGET ${name} PROPERTY COMPILE_WARNING_AS_ERROR ON)
 endforeach(source ${DAY_SOURCES})
 
